@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /v1/restaurants:
+    get:
+      tags:
+        - restaurant-controller
+      operationId: getRestaurants
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RestaurantCollection"
+  /v1/restaurants/{restaurantId}/menus/{menuId}:
+    get:
+      tags:
+        - restaurant-controller
+      operationId: getMenus
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Menu"
+  /v1/restaurants/{id}:
+    get:
+      tags:
+        - restaurant-controller
+      operationId: getRestaurantDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+components:
+  schemas:
+    RestaurantCollection:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/RestaurantItem"
+    RestaurantItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+    Menu:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        imageUrl:
+          type: string
+        description:
+          type: string
+        productIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        imageUrl:
+          type: string
+        description:
+          type: string
+    Restaurant:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        imageUrl:
+          type: string
+        description:
+          type: string
+        menus:
+          type: array
+          items:
+            $ref: "#/components/schemas/Menu"
+          uniqueItems: true
+        products:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+          uniqueItems: true
