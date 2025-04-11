@@ -1,28 +1,58 @@
 openapi: 3.1.0
 info:
-  title: OpenAPI definition
-  version: v0
+  title: Dineroo Restaurant API
+  version: v1
+  contact:
+    name: API Management Team
+    url: https://dineroo.api.com
+    email: dineroo.cfg@gmail.com
+
 servers:
   - url: http://localhost:8080
-    description: Generated server url
+    description: Local development server
+
 paths:
   /v1/restaurants:
     get:
       tags:
-        - restaurant-controller
+        - Restaurant Management
+      summary: Retrieve all restaurants
       operationId: getRestaurants
       responses:
         "200":
-          description: OK
+          description: A list of available restaurants
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/RestaurantCollection"
+
+  /v1/restaurants/{restaurantId}:
+    get:
+      tags:
+        - Restaurant Management
+      summary: Retrieve a specific restaurant by ID
+      operationId: getRestaurantById
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Restaurant details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+
   /v1/restaurants/{restaurantId}/menus/{menuId}:
     get:
       tags:
-        - restaurant-controller
-      operationId: getMenus
+        - Restaurant Management
+      summary: Retrieve a menu by restaurant and menu ID
+      operationId: getMenuById
       parameters:
         - name: restaurantId
           in: path
@@ -38,30 +68,12 @@ paths:
             format: uuid
       responses:
         "200":
-          description: OK
+          description: Menu details
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/Menu"
-  /v1/restaurants/{id}:
-    get:
-      tags:
-        - restaurant-controller
-      operationId: getRestaurantDetails
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/Restaurant"
+
 components:
   schemas:
     RestaurantCollection:
@@ -71,8 +83,12 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RestaurantItem"
+
     RestaurantItem:
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: string
@@ -83,55 +99,74 @@ components:
           type: string
         imageUrl:
           type: string
-    Menu:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        imageUrl:
-          type: string
-        description:
-          type: string
-        productIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          uniqueItems: true
-    Product:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        imageUrl:
-          type: string
-        description:
-          type: string
+
     Restaurant:
       type: object
+      required:
+        - id
+        - name
+        - menus
+        - products
       properties:
         id:
           type: string
           format: uuid
         name:
           type: string
-        imageUrl:
-          type: string
         description:
+          type: string
+        imageUrl:
           type: string
         menus:
           type: array
+          uniqueItems: true
           items:
             $ref: "#/components/schemas/Menu"
-          uniqueItems: true
         products:
           type: array
+          uniqueItems: true
           items:
             $ref: "#/components/schemas/Product"
+
+    Menu:
+      type: object
+      required:
+        - id
+        - name
+        - productIds
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+        productIds:
+          type: array
           uniqueItems: true
+          items:
+            type: string
+            format: uuid
+
+    Product:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        imageUrl:
+          type: string
+
+tags:
+  - name: Restaurant Management
+    description: Endpoints for managing restaurants, menus, and products
