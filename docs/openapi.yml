@@ -31,6 +31,9 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
 
   /v1/restaurants/{restaurantId}:
     get:
@@ -58,18 +61,27 @@ paths:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
         "404":
           description: Restaurant not found
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                NotFound:
+                  $ref: "#/components/schemas/ErrorResponse/examples/NotFound"
         "500":
           description: Internal server error
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
 
   /v1/restaurants/{restaurantId}/menus/{menuId}:
     get:
@@ -98,23 +110,32 @@ paths:
               schema:
                 $ref: "#/components/schemas/MenuResponse"
         "400":
-          description: Invalid restaurant or menu ID format
+          description: Invalid restaurant ID format
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
         "404":
-          description: Menu or Restaurant not found
+          description: Restaurant not found
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                NotFound:
+                  $ref: "#/components/schemas/ErrorResponse/examples/NotFound"
         "500":
           description: Internal server error
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
 
 components:
   schemas:
@@ -127,17 +148,38 @@ components:
           example: "about:blank"
         title:
           type: string
-          example: "Bad Request"
         status:
           type: integer
-          example: 400
         detail:
           type: string
-          example: "Type mismatch."
         instance:
           type: string
           format: uri
-          example: "/v1/restaurants/dfa3ef5a-549e-4728-a3dd-1184039e540bSS"
+      examples:
+        BadRequest:
+          summary: Bad Request - Type mismatch
+          value:
+            type: "about:blank"
+            title: "Bad Request"
+            status: 400
+            detail: "Invalid UUID format for restaurantId."
+            instance: "/v1/restaurants/invalid-uuid"
+        NotFound:
+          summary: Not Found - Restaurant does not exist
+          value:
+            type: "about:blank"
+            title: "Not Found"
+            status: 404
+            detail: "Restaurant with ID 'dfa3ef5a-549e-4728-a3dd-1184039e540b' was not found."
+            instance: "/v1/restaurants/dfa3ef5a-549e-4728-a3dd-1184039e540b"
+        InternalError:
+          summary: Internal Server Error
+          value:
+            type: "about:blank"
+            title: "Internal Server Error"
+            status: 500
+            detail: "An unexpected error occurred while processing your request."
+            instance: "/v1/restaurants"
 
     RestaurantCollection:
       type: object
