@@ -93,12 +93,19 @@ components:
         id:
           type: string
           format: uuid
+          example: 01962bb7-8dc0-77fe-827e-61c22cea6028
         name:
           type: string
+          example: Gastro africa
+        address:
+          type: string
+          example: Petit simbaya
         description:
           type: string
+          example: Restaurant de produits locaux
         imageUrl:
           type: string
+          example: "path/to/image.png"
 
     Restaurant:
       type: object
@@ -113,10 +120,16 @@ components:
           format: uuid
         name:
           type: string
+          example: Nomad
+        address:
+          type: string
+          example: Koloma carrefour
         description:
           type: string
+          example: Good restaurant with delicious dishes
         imageUrl:
           type: string
+          example: "path/to/image.png"
         menus:
           type: array
           uniqueItems: true
@@ -134,38 +147,50 @@ components:
         - id
         - name
         - productIds
+        - price
       properties:
         id:
           type: string
           format: uuid
+          example: 01962bb2-06a5-7154-9c66-cbb401865214
         name:
           type: string
+          example: Akieke au poisson
         description:
           type: string
+          example: "Restaurant proposal "
         imageUrl:
           type: string
-        productIds:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-            format: uuid
+          example: "http://localhost:8080/api/images/restaurant/favela.png"
+        price:
+          type: number
+          format: float
+          example: 26.9
 
     Product:
       type: object
       required:
         - id
         - name
+        - price
       properties:
         id:
           type: string
           format: uuid
+          example: 01962bb2-db70-7f03-8820-6e5f4e948515
         name:
           type: string
+          example: Banane plantin
         description:
           type: string
+          example: Banane plantin produit par les agriculteurs africains
         imageUrl:
           type: string
+          example: "path/to/image.png"
+        price:
+          type: number
+          format: float
+          example: 45.0
 
 tags:
   - name: Restaurant Management
