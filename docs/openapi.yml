@@ -25,6 +25,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RestaurantCollection"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /v1/restaurants/{restaurantId}:
     get:
@@ -46,6 +52,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Restaurant"
+        "400":
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /v1/restaurants/{restaurantId}/menus/{menuId}:
     get:
@@ -73,9 +97,48 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MenuResponse"
+        "400":
+          description: Invalid restaurant or menu ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Menu or Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+          example: "about:blank"
+        title:
+          type: string
+          example: "Bad Request"
+        status:
+          type: integer
+          example: 400
+        detail:
+          type: string
+          example: "Type mismatch."
+        instance:
+          type: string
+          format: uri
+          example: "/v1/restaurants/dfa3ef5a-549e-4728-a3dd-1184039e540bSS"
+
     RestaurantCollection:
       type: object
       properties:
