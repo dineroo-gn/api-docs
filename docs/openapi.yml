@@ -305,6 +305,13 @@ components:
           type: number
           format: float
           example: 45.0
+        productType:
+          type: string
+          enum:
+            - DISH
+            - BEVERAGE
+            - APPETIZER
+            - DESSERT
 
 tags:
   - name: Restaurant Management
