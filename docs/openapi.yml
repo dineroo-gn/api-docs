@@ -251,6 +251,9 @@ components:
         - $ref: "#/components/schemas/Menu"
         - type: object
           properties:
+            description:
+              type: string
+              example: Menu of days
             products:
               type: array
               items:
