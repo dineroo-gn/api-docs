@@ -151,6 +151,42 @@ paths:
         "201":
           description: Created
           content: { }
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
+        "403":
+          description: Forbidden request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/Forbidden"
+        409:
+          description: Resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/Conflict"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
 
 components:
   schemas:
@@ -177,8 +213,8 @@ components:
             type: "about:blank"
             title: "Bad Request"
             status: 400
-            detail: "Invalid UUID format for restaurantId."
-            instance: "/v1/restaurants/invalid-uuid"
+            detail: "Invalid data"
+            instance: ""
         NotFound:
           summary: Not Found - Restaurant does not exist
           value:
@@ -187,6 +223,21 @@ components:
             status: 404
             detail: "Restaurant with ID 'dfa3ef5a-549e-4728-a3dd-1184039e540b' was not found."
             instance: "/v1/restaurants/dfa3ef5a-549e-4728-a3dd-1184039e540b"
+        Forbidden:
+          summary: Forbidden - insufficient permissions
+          value:
+            type: "ForbiddenError"
+            title: "Forbidden"
+            status: 403
+            detail: "You do not have permission to perform this action"
+        Conflict:
+          summary: Conflict - user already exists
+          value:
+            type: "ResourceConflict"
+            title: "Resource conflict"
+            status: 409
+            detail: "Username or email already exists"
+
         InternalError:
           summary: Internal Server Error
           value:
