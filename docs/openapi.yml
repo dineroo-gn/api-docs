@@ -411,9 +411,6 @@ components:
             $ref: "#/components/schemas/Credential"
       required:
         - credentials
-        - enabled
-        - firstName
-        - lastName
         - username
 
 
