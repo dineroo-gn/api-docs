@@ -34,7 +34,6 @@ paths:
               examples:
                 InternalError:
                   $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
-
   /v1/restaurants/{restaurantId}:
     get:
       tags:
@@ -82,7 +81,6 @@ paths:
               examples:
                 InternalError:
                   $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
-
   /v1/restaurants/{restaurantId}/menus/{menuId}:
     get:
       tags:
@@ -187,6 +185,186 @@ paths:
               examples:
                 InternalError:
                   $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
+  /v1/orders:
+    get:
+      tags:
+        - Order Management
+      operationId: getAllOrders
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+        "400":
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
+        "404":
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                NotFound:
+                  $ref: "#/components/schemas/ErrorResponse/examples/NotFound"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
+    post:
+      tags:
+        - Order Management
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        "400":
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
+        "404":
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                NotFound:
+                  $ref: "#/components/schemas/ErrorResponse/examples/NotFound"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
+  /v1/orders/{id}:
+    get:
+      tags:
+        - Order Management
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        "400":
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
+        "404":
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                NotFound:
+                  $ref: "#/components/schemas/ErrorResponse/examples/NotFound"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
+  /v1/customers/{customerId}/orders:
+    get:
+      tags:
+        - Order Management
+      operationId: getOrderByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
+        "400":
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
+        "404":
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                NotFound:
+                  $ref: "#/components/schemas/ErrorResponse/examples/NotFound"
+
 
 components:
   schemas:
@@ -246,7 +424,6 @@ components:
             status: 500
             detail: "An unexpected error occurred while processing your request."
             instance: "/v1/restaurants"
-
     RestaurantCollection:
       type: object
       properties:
@@ -254,7 +431,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/RestaurantItem"
-
     RestaurantItem:
       type: object
       required:
@@ -277,7 +453,6 @@ components:
         imageUrl:
           type: string
           example: "path/to/image.png"
-
     Restaurant:
       type: object
       required:
@@ -311,7 +486,6 @@ components:
           uniqueItems: true
           items:
             $ref: "#/components/schemas/Product"
-
     MenuResponse:
       allOf:
         - $ref: "#/components/schemas/Menu"
@@ -324,7 +498,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Product'
-
     Menu:
       type: object
       required:
@@ -349,7 +522,6 @@ components:
           type: number
           format: float
           example: 26.9
-
     Product:
       type: object
       required:
@@ -412,6 +584,135 @@ components:
       required:
         - credentials
         - username
+    CustomerRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        telephone:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+      required:
+        - firstName
+        - lastName
+        - telephone
+    OrderItemRequest:
+      type: object
+      properties:
+        productId:
+          type: string
+          format: uuid
+        menuId:
+          type: string
+          format: uuid
+        imageUrl:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: double
+      required:
+        - imageUrl
+        - price
+        - quantity
+    OrderRequest:
+      type: object
+      properties:
+        restaurantId:
+          type: string
+          format: uuid
+        totalPrice:
+          type: number
+          format: double
+        deliveryAddress:
+          type: string
+        status:
+          type: string
+        customer:
+          $ref: '#/components/schemas/CustomerRequest'
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemRequest'
+          uniqueItems: true
+      required:
+        - deliveryAddress
+        - orderItems
+        - restaurantId
+        - status
+        - totalPrice
+    OrderItemResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        orderId:
+          type: integer
+          format: int64
+        productId:
+          type: string
+          format: uuid
+        menuId:
+          type: string
+          format: uuid
+        imageUrl:
+          type: string
+        quantity:
+          type: integer
+          format: int32
+        price:
+          type: number
+          format: double
+      required:
+        - imageUrl
+        - orderId
+        - price
+        - quantity
+    OrderResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        restaurantId:
+          type: string
+          format: uuid
+        totalPrice:
+          type: number
+          format: double
+        deliveryAddress:
+          type: string
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemResponse'
+          uniqueItems: true
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+      required:
+        - deliveryAddress
+        - id
+        - orderItems
+        - restaurantId
+        - status
+        - totalPrice
 
 
 tags:
@@ -419,3 +720,5 @@ tags:
     description: Endpoints for managing restaurants, menus, and products
   - name: User Management
     description: Endpoints for managing users
+  - name: Order Management
+    description: Endpoints for managing orders
