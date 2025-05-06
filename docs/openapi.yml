@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Dineroo Restaurant API
+  title: Dineroo API
   version: v1
   contact:
     name: API Management Team
