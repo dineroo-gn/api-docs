@@ -191,6 +191,7 @@ paths:
       tags:
         - User Management
       operationId: createToken
+      summary: Generate user's token
       requestBody:
         content:
           application/json:
@@ -245,6 +246,7 @@ paths:
       tags:
         - Order Management
       operationId: getAllOrders
+      summary: Retrieve all orders
       responses:
         '200':
           description: OK
