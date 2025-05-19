@@ -139,16 +139,71 @@ paths:
       tags:
         - User Management
       operationId: create
+      summary: Create an user
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/UserRequest"
         required: true
       responses:
         "201":
           description: Created
           content: { }
+        "400":
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/BadRequest"
+        "403":
+          description: Forbidden request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/Forbidden"
+        409:
+          description: Resource conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                BadRequest:
+                  $ref: "#/components/schemas/ErrorResponse/examples/Conflict"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                InternalError:
+                  $ref: "#/components/schemas/ErrorResponse/examples/InternalError"
+  /v1/users/token:
+    post:
+      tags:
+        - User Management
+      operationId: createToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Token'
         "400":
           description: Bad request
           content:
@@ -230,6 +285,7 @@ paths:
       tags:
         - Order Management
       operationId: createOrder
+      summary: create an order
       requestBody:
         content:
           application/json:
@@ -275,6 +331,7 @@ paths:
       tags:
         - Order Management
       operationId: getOrderById
+      summary: Retrieve an order by id
       parameters:
         - name: id
           in: path
@@ -321,6 +378,7 @@ paths:
       tags:
         - Order Management
       operationId: getOrderByCustomerId
+      summary: Retrieve all order for a given customer
       parameters:
         - name: customerId
           in: path
@@ -566,7 +624,7 @@ components:
         - temporary
         - type
         - value
-    User:
+    UserRequest:
       type: object
       properties:
         username:
@@ -584,6 +642,22 @@ components:
       required:
         - credentials
         - username
+    Token:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        refreshExpiresIn:
+          type: integer
+          format: int32
+        expiresIn:
+          type: integer
+          format: int32
+      required:
+        - accessToken
+        - refreshToken
     CustomerRequest:
       type: object
       properties:
