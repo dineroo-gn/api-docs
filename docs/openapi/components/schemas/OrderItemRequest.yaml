@@ -1,0 +1,25 @@
+type: object
+required:
+  - imageUrl
+  - price
+  - quantity
+properties:
+  productId:
+    type: string
+    format: uuid
+    example: 01962bb2-db70-7f03-8820-6e5f4e948515
+  menuId:
+    type: string
+    format: uuid
+    example: 01962bb2-06a5-7154-9c66-cbb401865214
+  imageUrl:
+    type: string
+    example: http://localhost:8080/api/images/products/plantain.png
+  quantity:
+    type: integer
+    format: int32
+    example: 2
+  price:
+    type: number
+    format: double
+    example: 45.0

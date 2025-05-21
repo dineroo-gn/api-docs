@@ -1,0 +1,138 @@
+postUser:
+  post:
+    tags:
+      - User Management
+    summary: Create a new user
+    operationId: create
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/User.yaml"
+      required: true
+    responses:
+      "201":
+        description: Created
+        content: {}
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The request payload is invalid."
+              instance: "/v1/users"
+      "403":
+        description: Forbidden
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "ForbiddenError"
+              title: "Forbidden"
+              status: 403
+              detail: "You do not have permission to create users."
+              instance: "/v1/users"
+      "409":
+        description: Conflict
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "ResourceConflict"
+              title: "Resource conflict"
+              status: 409
+              detail: "A user with this email already exists."
+              instance: "/v1/users"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred while creating user."
+              instance: "/v1/users"
+
+postUserToken:
+  post:
+    tags:
+      - User Management
+    summary: Generate a user's token
+    operationId: createToken
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/User.yaml"
+    responses:
+      "200":
+        description: Token successfully generated
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/Token.yaml"
+            example:
+              accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+              expiresIn: 3600
+              refreshExpiresIn: 86400
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Missing or invalid user credentials."
+              instance: "/v1/users/token"
+      "403":
+        description: Forbidden
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "ForbiddenError"
+              title: "Forbidden"
+              status: 403
+              detail: "User is not allowed to generate tokens."
+              instance: "/v1/users/token"
+      "409":
+        description: Conflict
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "ResourceConflict"
+              title: "Resource conflict"
+              status: 409
+              detail: "User already has an active token."
+              instance: "/v1/users/token"
+
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred while generating token."
+              instance: "/v1/users/token"

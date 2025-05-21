@@ -1,0 +1,19 @@
+type: object
+required:
+  - accessToken
+  - refreshToken
+properties:
+  accessToken:
+    type: string
+    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  refreshToken:
+    type: string
+    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  expiresIn:
+    type: integer
+    format: int32
+    example: 3600
+  refreshExpiresIn:
+    type: integer
+    format: int32
+    example: 86400

@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: Dineroo API
+  version: v1
+  contact:
+    name: API Management Team
+    url: https://dineroo.api.com
+    email: dineroo.cfg@gmail.com
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /v1/users:
+    $ref: './paths/users.yaml#/postUser'
+  /v1/users/token:
+    $ref: './paths/users.yaml#/postUserToken'
+
+  /v1/restaurants:
+    $ref: './paths/restaurants.yaml#/getRestaurants'
+  /v1/restaurants/{restaurantId}:
+    $ref: './paths/restaurants.yaml#/getRestaurantById'
+  /v1/restaurants/{restaurantId}/menus/{menuId}:
+    $ref: './paths/restaurants.yaml#/getMenuById'
+
+  /v1/orders:
+    $ref: './paths/orders.yaml#/orders'
+  /v1/orders/{id}:
+    $ref: './paths/orders.yaml#/getOrderById'
+  /v1/customers/{customerId}/orders:
+    $ref: './paths/orders.yaml#/getOrdersByCustomer'
+
+components:
+  schemas:
+    Credential:             { $ref: './components/schemas/Credential.yaml' }
+    CustomerRequest:        { $ref: './components/schemas/CustomerRequest.yaml' }
+    Menu:                   { $ref: './components/schemas/Menu.yaml' }
+    MenuResponse:           { $ref: './components/schemas/MenuResponse.yaml' }
+    OrderItemRequest:       { $ref: './components/schemas/OrderItemRequest.yaml' }
+    OrderItemResponse:      { $ref: './components/schemas/OrderItemResponse.yaml' }
+    OrderRequest:           { $ref: './components/schemas/OrderRequest.yaml' }
+    OrderResponse:          { $ref: './components/schemas/OrderResponse.yaml' }
+    Product:                { $ref: './components/schemas/Product.yaml' }
+    Restaurant:             { $ref: './components/schemas/Restaurant.yaml' }
+    RestaurantItem:         { $ref: './components/schemas/RestaurantItem.yaml' }
+    RestaurantCollection:   { $ref: './components/schemas/RestaurantCollection.yaml' }
+    User:                   { $ref: './components/schemas/User.yaml' }
+
+  responses:
+    ErrorResponse:          { $ref: './components/responses/ErrorResponse.yaml' }
+
+tags:
+  - name: Restaurant Management
+    description: Endpoints for managing restaurants, menus, and products
+  - name: User Management
+    description: Endpoints for managing users
+  - name: Order Management
+    description: Endpoints for managing orders

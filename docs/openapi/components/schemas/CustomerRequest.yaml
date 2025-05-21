@@ -1,0 +1,25 @@
+type: object
+required:
+  - firstName
+  - lastName
+  - telephone
+properties:
+  id:
+    type: string
+    format: uuid
+    example: 123e4567-e89b-12d3-a456-426614174000
+  firstName:
+    type: string
+    example: Alpha
+  lastName:
+    type: string
+    example: Diallo
+  telephone:
+    type: string
+    example: "+224620000000"
+  email:
+    type: string
+    example: alpha.diallo@example.com
+  address:
+    type: string
+    example: Rue 12, Kipé

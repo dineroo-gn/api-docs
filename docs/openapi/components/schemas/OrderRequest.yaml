@@ -1,0 +1,29 @@
+type: object
+required:
+  - deliveryAddress
+  - orderItems
+  - restaurantId
+  - status
+  - totalPrice
+properties:
+  restaurantId:
+    type: string
+    format: uuid
+    example: 01962bb7-8dc0-77fe-827e-61c22cea6028
+  totalPrice:
+    type: number
+    format: double
+    example: 120.5
+  deliveryAddress:
+    type: string
+    example: Quartier Kipé, Conakry
+  customer:
+    $ref: './CustomerRequest.yaml'
+  orderItems:
+    type: array
+    uniqueItems: true
+    items:
+      $ref: './OrderItemRequest.yaml'
+  status:
+    type: string
+    example: PENDING
