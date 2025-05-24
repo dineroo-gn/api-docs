@@ -1,0 +1,935 @@
+openapi: 3.1.0
+info:
+  title: Dineroo API
+  version: v1
+  contact:
+    name: API Management Team
+    url: https://dineroo.api.com
+    email: dineroo.cfg@gmail.com
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+tags:
+  - name: Restaurant Management
+    description: Endpoints for managing restaurants, menus, and products
+  - name: User Management
+    description: Endpoints for managing users
+  - name: Order Management
+    description: Endpoints for managing orders
+paths:
+  /v1/users:
+    post:
+      tags:
+        - User Management
+      summary: Create a new user
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content: {}
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The request payload is invalid.
+                instance: /v1/users
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: ForbiddenError
+                title: Forbidden
+                status: 403
+                detail: You do not have permission to create users.
+                instance: /v1/users
+        '409':
+          description: Conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: ResourceConflict
+                title: Resource conflict
+                status: 409
+                detail: A user with this email already exists.
+                instance: /v1/users
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred while creating user.
+                instance: /v1/users
+  /v1/users/token:
+    post:
+      tags:
+        - User Management
+      summary: Generate a user's token
+      operationId: createToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Token successfully generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+              example:
+                accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                expiresIn: 3600
+                refreshExpiresIn: 86400
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Missing or invalid user credentials.
+                instance: /v1/users/token
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: ForbiddenError
+                title: Forbidden
+                status: 403
+                detail: User is not allowed to generate tokens.
+                instance: /v1/users/token
+        '409':
+          description: Conflict
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: ResourceConflict
+                title: Resource conflict
+                status: 409
+                detail: User already has an active token.
+                instance: /v1/users/token
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred while generating token.
+                instance: /v1/users/token
+  /v1/restaurants:
+    get:
+      tags:
+        - Restaurant Management
+      summary: Retrieve all restaurants
+      operationId: getRestaurants
+      responses:
+        '200':
+          description: A list of available restaurants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestaurantCollection'
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: An unexpected error occurred while processing your request.
+                instance: /v1/restaurants
+  /v1/restaurants/{restaurantId}:
+    get:
+      tags:
+        - Restaurant Management
+      summary: Retrieve a specific restaurant by ID
+      operationId: getRestaurantById
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Restaurant details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restaurant'
+        '400':
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid UUID format
+                instance: /v1/restaurants/invalid-id
+        '404':
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Restaurant with ID 'dfa3ef5a-549e-4728-a3dd-1184039e540b' was not found.
+                instance: /v1/restaurants/dfa3ef5a-549e-4728-a3dd-1184039e540b
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while retrieving the restaurant.
+                instance: /v1/restaurants/{restaurantId}
+  /v1/restaurants/{restaurantId}/menus/{menuId}:
+    get:
+      tags:
+        - Restaurant Management
+      summary: Retrieve a menu by restaurant and menu ID
+      operationId: getMenuById
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: menuId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Menu details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuResponse'
+        '400':
+          description: Invalid restaurant ID or menu ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid UUID format in restaurantId or menuId
+                instance: /v1/restaurants/{restaurantId}/menus/{menuId}
+        '404':
+          description: Menu not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Menu with ID 'abc-123' not found for restaurant 'xyz-456'.
+                instance: /v1/restaurants/xyz-456/menus/abc-123
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while retrieving the menu.
+                instance: /v1/restaurants/{restaurantId}/menus/{menuId}
+  /v1/orders:
+    get:
+      tags:
+        - Order Management
+      summary: Retrieve all orders
+      operationId: getAllOrders
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid query parameters.
+                instance: /v1/orders
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: No orders found for the given criteria.
+                instance: /v1/orders
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred while fetching orders.
+                instance: /v1/orders
+    post:
+      tags:
+        - Order Management
+      summary: Create a new order
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: 'Missing required field: deliveryAddress.'
+                instance: /v1/orders
+        '404':
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Restaurant with ID 'abc-123' was not found.
+                instance: /v1/orders
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred while creating order.
+                instance: /v1/orders
+  /v1/orders/{id}:
+    get:
+      tags:
+        - Order Management
+      summary: Retrieve a specific order by ID
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The order ID must be a valid integer.
+                instance: /v1/orders/abc
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Order with ID '99999' was not found.
+                instance: /v1/orders/99999
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred while retrieving the order.
+                instance: /v1/orders/{id}
+  /v1/customers/{customerId}/orders:
+    get:
+      tags:
+        - Order Management
+      summary: Retrieve all orders for a specific customer
+      operationId: getOrderByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The customer ID is not a valid UUID.
+                instance: /v1/customers/invalid-id/orders
+        '404':
+          description: Customer not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Customer with ID 'dfa3ef5a-549e-4728-a3dd-1184039e540b' was not found.
+                instance: /v1/customers/dfa3ef5a-549e-4728-a3dd-1184039e540b/orders
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while retrieving orders for the customer.
+                instance: /v1/customers/{customerId}/orders
+components:
+  schemas:
+    Credential:
+      type: object
+      required:
+        - temporary
+        - type
+        - value
+      properties:
+        type:
+          type: string
+          example: password
+        value:
+          type: string
+          example: secret123
+        temporary:
+          type: boolean
+          example: false
+    CustomerRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - telephone
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        firstName:
+          type: string
+          example: Alpha
+        lastName:
+          type: string
+          example: Diallo
+        telephone:
+          type: string
+          example: '+224620000000'
+        email:
+          type: string
+          example: alpha.diallo@example.com
+        address:
+          type: string
+          example: Rue 12, Kipé
+    Menu:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 01962bb2-06a5-7154-9c66-cbb401865214
+        name:
+          type: string
+          example: Akieke au poisson
+        description:
+          type: string
+          example: Restaurant proposal
+        imageUrl:
+          type: string
+          example: http://localhost:8080/api/images/restaurant/favela.png
+        price:
+          type: number
+          format: float
+          example: 26.9
+    MenuResponse:
+      allOf:
+        - $ref: '#/components/schemas/Menu'
+        - type: object
+          properties:
+            description:
+              type: string
+              example: Menu of the day
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+              example:
+                - id: 01962bb2-db70-7f03-8820-6e5f4e948515
+                  name: Banane plantin
+                  description: Banane plantin produite par des agriculteurs guinéens
+                  imageUrl: http://localhost:8080/api/images/products/plantain.png
+                  price: 45
+                  productType: DISH
+                - id: 01962bb2-dc21-75c9-99f9-78123c9e18f1
+                  name: Jus de bissap
+                  description: Boisson naturelle traditionnelle
+                  imageUrl: http://localhost:8080/api/images/products/bissap.png
+                  price: 15
+                  productType: BEVERAGE
+    OrderItemRequest:
+      type: object
+      required:
+        - imageUrl
+        - price
+        - quantity
+      properties:
+        productId:
+          type: string
+          format: uuid
+          example: 01962bb2-db70-7f03-8820-6e5f4e948515
+        menuId:
+          type: string
+          format: uuid
+          example: 01962bb2-06a5-7154-9c66-cbb401865214
+        imageUrl:
+          type: string
+          example: http://localhost:8080/api/images/products/plantain.png
+        quantity:
+          type: integer
+          format: int32
+          example: 2
+        price:
+          type: number
+          format: double
+          example: 45
+    OrderItemResponse:
+      type: object
+      required:
+        - imageUrl
+        - orderId
+        - price
+        - quantity
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1001
+        orderId:
+          type: integer
+          format: int64
+          example: 2001
+        productId:
+          type: string
+          format: uuid
+          example: 01962bb2-db70-7f03-8820-6e5f4e948515
+        menuId:
+          type: string
+          format: uuid
+          example: 01962bb2-06a5-7154-9c66-cbb401865214
+        imageUrl:
+          type: string
+          example: http://localhost:8080/api/images/products/plantain.png
+        quantity:
+          type: integer
+          format: int32
+          example: 3
+        price:
+          type: number
+          format: double
+          example: 45
+    OrderRequest:
+      type: object
+      required:
+        - deliveryAddress
+        - orderItems
+        - restaurantId
+        - status
+        - totalPrice
+      properties:
+        restaurantId:
+          type: string
+          format: uuid
+          example: 01962bb7-8dc0-77fe-827e-61c22cea6028
+        totalPrice:
+          type: number
+          format: double
+          example: 120.5
+        deliveryAddress:
+          type: string
+          example: Quartier Kipé, Conakry
+        customer:
+          $ref: '#/components/schemas/CustomerRequest'
+        orderItems:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/OrderItemRequest'
+        status:
+          type: string
+          example: PENDING
+    OrderResponse:
+      type: object
+      required:
+        - deliveryAddress
+        - id
+        - orderItems
+        - restaurantId
+        - status
+        - totalPrice
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        restaurantId:
+          type: string
+          format: uuid
+          example: 01962bb7-8dc0-77fe-827e-61c22cea6028
+        totalPrice:
+          type: number
+          format: double
+          example: 120.5
+        deliveryAddress:
+          type: string
+          example: Quartier Kipé, Conakry
+        orderItems:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/OrderItemRequest'
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          example: PENDING
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 01962bb2-db70-7f03-8820-6e5f4e948515
+        name:
+          type: string
+          example: Banane plantin
+        description:
+          type: string
+          example: Banane plantin produite par des agriculteurs guinéens
+        imageUrl:
+          type: string
+          example: http://localhost:8080/api/images/products/plantain.png
+        price:
+          type: number
+          format: float
+          example: 45
+        productType:
+          type: string
+          enum:
+            - DISH
+            - BEVERAGE
+            - APPETIZER
+            - DESSERT
+          example: DISH
+    Restaurant:
+      type: object
+      required:
+        - id
+        - name
+        - menus
+        - products
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 01962bb7-8dc0-77fe-827e-61c22cea6028
+        name:
+          type: string
+          example: Nomad
+        address:
+          type: string
+          example: Koloma Carrefour
+        description:
+          type: string
+          example: Good restaurant with delicious dishes
+        imageUrl:
+          type: string
+          example: http://localhost:8080/api/images/restaurants/nomad.png
+        menus:
+          type: array
+          items:
+            $ref: '#/components/schemas/Menu'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    RestaurantItem:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 01962bb7-8dc0-77fe-827e-61c22cea6028
+        name:
+          type: string
+          example: Gastro Africa
+        address:
+          type: string
+          example: Petit Simbaya
+        description:
+          type: string
+          example: Restaurant de produits locaux
+        imageUrl:
+          type: string
+          example: http://localhost:8080/api/images/restaurants/gastro-africa.png
+    RestaurantCollection:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestaurantItem'
+          example:
+            - id: 01962bb7-8dc0-77fe-827e-61c22cea6028
+              name: Gastro Africa
+              address: Petit Simbaya
+              description: Restaurant de produits locaux
+              imageUrl: http://localhost:8080/api/images/restaurants/gastro-africa.png
+            - id: 01962bb7-1111-2222-3333-444444444444
+              name: Le Jardin Gourmand
+              address: Dixinn Bora
+              description: Cuisine guinéenne moderne
+              imageUrl: http://localhost:8080/api/images/restaurants/jardin-gourmand.png
+    User:
+      type: object
+      required:
+        - credentials
+        - username
+      properties:
+        username:
+          type: string
+          example: 224666000000
+        firstName:
+          type: string
+          example: Alpha
+        lastName:
+          type: string
+          example: Diallo
+        enabled:
+          type: boolean
+          example: true
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/Credential'
+    ErrorResponse:
+      description: Error response
+      content:
+        application/problem+json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                format: uri
+              title:
+                type: string
+              status:
+                type: integer
+              detail:
+                type: string
+              instance:
+                type: string
+                format: uri
+            required:
+              - type
+              - title
+              - status
+              - detail
+    Token:
+      type: object
+      required:
+        - accessToken
+        - refreshToken
+      properties:
+        accessToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        refreshToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        expiresIn:
+          type: integer
+          format: int32
+          example: 3600
+        refreshExpiresIn:
+          type: integer
+          format: int32
+          example: 86400
+  responses:
+    ErrorResponse:
+      description: Error response
+      content:
+        application/problem+json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                format: uri
+              title:
+                type: string
+              status:
+                type: integer
+              detail:
+                type: string
+              instance:
+                type: string
+                format: uri
+            required:
+              - type
+              - title
+              - status
+              - detail

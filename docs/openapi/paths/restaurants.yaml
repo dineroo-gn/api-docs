@@ -1,0 +1,145 @@
+getRestaurants:
+  get:
+    tags:
+      - Restaurant Management
+    summary: Retrieve all restaurants
+    operationId: getRestaurants
+    responses:
+      "200":
+        description: A list of available restaurants
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/RestaurantCollection.yaml"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "An unexpected error occurred while processing your request."
+              instance: "/v1/restaurants"
+
+getRestaurantById:
+  get:
+    tags:
+      - Restaurant Management
+    summary: Retrieve a specific restaurant by ID
+    operationId: getRestaurantById
+    parameters:
+      - name: restaurantId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Restaurant details
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/Restaurant.yaml"
+      "400":
+        description: Invalid restaurant ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid UUID format"
+              instance: "/v1/restaurants/invalid-id"
+      "404":
+        description: Restaurant not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Restaurant with ID 'dfa3ef5a-549e-4728-a3dd-1184039e540b' was not found."
+              instance: "/v1/restaurants/dfa3ef5a-549e-4728-a3dd-1184039e540b"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieving the restaurant."
+              instance: "/v1/restaurants/{restaurantId}"
+
+getMenuById:
+  get:
+    tags:
+      - Restaurant Management
+    summary: Retrieve a menu by restaurant and menu ID
+    operationId: getMenuById
+    parameters:
+      - name: restaurantId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: menuId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Menu details
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/MenuResponse.yaml"
+      "400":
+        description: Invalid restaurant ID or menu ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid UUID format in restaurantId or menuId"
+              instance: "/v1/restaurants/{restaurantId}/menus/{menuId}"
+      "404":
+        description: Menu not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Menu with ID 'abc-123' not found for restaurant 'xyz-456'."
+              instance: "/v1/restaurants/xyz-456/menus/abc-123"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieving the menu."
+              instance: "/v1/restaurants/{restaurantId}/menus/{menuId}"

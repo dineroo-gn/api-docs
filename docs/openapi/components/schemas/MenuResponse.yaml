@@ -1,0 +1,24 @@
+allOf:
+  - $ref: "./Menu.yaml"
+  - type: object
+    properties:
+      description:
+        type: string
+        example: Menu of the day
+      products:
+        type: array
+        items:
+          $ref: './Product.yaml'
+        example:
+          - id: 01962bb2-db70-7f03-8820-6e5f4e948515
+            name: Banane plantin
+            description: Banane plantin produite par des agriculteurs guinéens
+            imageUrl: http://localhost:8080/api/images/products/plantain.png
+            price: 45.0
+            productType: DISH
+          - id: 01962bb2-dc21-75c9-99f9-78123c9e18f1
+            name: Jus de bissap
+            description: Boisson naturelle traditionnelle
+            imageUrl: http://localhost:8080/api/images/products/bissap.png
+            price: 15.0
+            productType: BEVERAGE

@@ -1,0 +1,12 @@
+{
+  "name": "dineroo-api-docs",
+  "version": "1.0.0",
+  "description": "OpenAPI documentation for the Dineroo API",
+  "scripts": {
+    "bundle-docs": "redocly bundle docs/openapi/openapi.yaml -o docs/openapi/bundle.yaml",
+    "serve": "npm run bundle-docs && npx serve docs"
+  },
+  "devDependencies": {
+    "@redocly/cli": "^1.0.0"
+  }
+}

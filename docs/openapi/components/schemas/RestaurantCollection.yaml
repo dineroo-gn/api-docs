@@ -1,0 +1,17 @@
+type: object
+properties:
+  items:
+    type: array
+    items:
+      $ref: "./RestaurantItem.yaml"
+    example:
+      - id: 01962bb7-8dc0-77fe-827e-61c22cea6028
+        name: Gastro Africa
+        address: Petit Simbaya
+        description: Restaurant de produits locaux
+        imageUrl: http://localhost:8080/api/images/restaurants/gastro-africa.png
+      - id: 01962bb7-1111-2222-3333-444444444444
+        name: Le Jardin Gourmand
+        address: Dixinn Bora
+        description: Cuisine guinéenne moderne
+        imageUrl: http://localhost:8080/api/images/restaurants/jardin-gourmand.png

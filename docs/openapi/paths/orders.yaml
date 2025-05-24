@@ -1,0 +1,223 @@
+orders:
+  get:
+    tags:
+      - Order Management
+    summary: Retrieve all orders
+    operationId: getAllOrders
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas/OrderResponse.yaml"
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid query parameters."
+              instance: "/v1/orders"
+      "404":
+        description: Not Found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "No orders found for the given criteria."
+              instance: "/v1/orders"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred while fetching orders."
+              instance: "/v1/orders"
+
+  post:
+    tags:
+      - Order Management
+    summary: Create a new order
+    operationId: createOrder
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/OrderRequest.yaml"
+      required: true
+    responses:
+      "201":
+        description: Created
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderResponse.yaml"
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Missing required field: deliveryAddress."
+              instance: "/v1/orders"
+      "404":
+        description: Restaurant not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Restaurant with ID 'abc-123' was not found."
+              instance: "/v1/orders"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred while creating order."
+              instance: "/v1/orders"
+
+getOrderById:
+  get:
+    tags:
+      - Order Management
+    summary: Retrieve a specific order by ID
+    operationId: getOrderById
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderResponse.yaml"
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The order ID must be a valid integer."
+              instance: "/v1/orders/abc"
+      "404":
+        description: Order not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Order with ID '99999' was not found."
+              instance: "/v1/orders/99999"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred while retrieving the order."
+              instance: "/v1/orders/{id}"
+
+getOrdersByCustomer:
+  get:
+    tags:
+      - Order Management
+    summary: Retrieve all orders for a specific customer
+    operationId: getOrderByCustomerId
+    parameters:
+      - name: customerId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas/OrderResponse.yaml"
+      
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The customer ID is not a valid UUID."
+              instance: "/v1/customers/invalid-id/orders"
+      "404":
+        description: Customer not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Customer with ID 'dfa3ef5a-549e-4728-a3dd-1184039e540b' was not found."
+              instance: "/v1/customers/dfa3ef5a-549e-4728-a3dd-1184039e540b/orders"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieving orders for the customer."
+              instance: "/v1/customers/{customerId}/orders"
