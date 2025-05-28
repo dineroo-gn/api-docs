@@ -963,13 +963,12 @@ components:
           format: int32
           example: 86400
     VerificationCode:
-      VerificationCode:
-        type: object
-        properties:
-          code:
-            type: string
-            example: 4356
-            description: verification code
+      type: object
+      properties:
+        code:
+          type: string
+          example: 4356
+          description: verification code
   responses:
     ErrorResponse:
       description: Error response
