@@ -156,7 +156,7 @@ paths:
   /v1/users/verify-code:
     post:
       tags:
-        - user-controller
+        - User Management
       operationId: verifyCode
       requestBody:
         content:
