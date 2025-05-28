@@ -139,7 +139,7 @@ postUserToken:
 verifyCode:
     post:
       tags:
-        - user-controller
+        - User Management
       operationId: verifyCode
       requestBody:
         content:
