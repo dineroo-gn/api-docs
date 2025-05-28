@@ -153,6 +153,60 @@ paths:
                 status: 500
                 detail: Unexpected error occurred while generating token.
                 instance: /v1/users/token
+  /v1/users/verify-code:
+    post:
+      tags:
+        - user-controller
+      operationId: verifyCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerificationCode'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid code format
+                instance: /v1/users/verify-code
+        '404':
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Verification code 4525' was not found.
+                instance: /v1/users/verify-code
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while verifying code 3456.
+                instance: /v1/users/verify-code
   /v1/restaurants:
     get:
       tags:
@@ -908,6 +962,14 @@ components:
           type: integer
           format: int32
           example: 86400
+    VerificationCode:
+      VerificationCode:
+        type: object
+        properties:
+          code:
+            type: string
+            example: 4356
+            description: verification code
   responses:
     ErrorResponse:
       description: Error response
