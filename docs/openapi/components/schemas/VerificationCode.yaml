@@ -1,7 +1,6 @@
-VerificationCode:
-  type: object
-  properties:
-    code:
-      type: string
-      example: 4356
-      description: verification code
+type: object
+properties:
+  code:
+    type: string
+    example: 4356
+    description: verification code
