@@ -16,6 +16,8 @@ paths:
     $ref: './paths/users.yaml#/postUser'
   /v1/users/token:
     $ref: './paths/users.yaml#/postUserToken'
+  /v1/users/verify-code:
+    $ref: './paths/users.yaml#/verifyCode'
 
   /v1/restaurants:
     $ref: './paths/restaurants.yaml#/getRestaurants'

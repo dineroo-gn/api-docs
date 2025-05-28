@@ -136,3 +136,57 @@ postUserToken:
               status: 500
               detail: "Unexpected error occurred while generating token."
               instance: "/v1/users/token"
+verifyCode:
+    post:
+      tags:
+        - user-controller
+      operationId: verifyCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '../components/schemas/VerificationCode.yaml'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '../components/schemas/Token.yaml'
+        "400":
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../components/responses/ErrorResponse.yaml"
+              example:
+                type: "about:blank"
+                title: "Bad Request"
+                status: 400
+                detail: "Invalid code format"
+                instance: "/v1/users/verify-code"
+        "404":
+          description: Restaurant not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../components/responses/ErrorResponse.yaml"
+              example:
+                type: "about:blank"
+                title: "Not Found"
+                status: 404
+                detail: "Verification code 4525' was not found."
+                instance: "/v1/users/verify-code"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../components/responses/ErrorResponse.yaml"
+              example:
+                type: "about:blank"
+                title: "Internal Server Error"
+                status: 500
+                detail: "Unexpected error while verifying code 3456."
+                instance: "/v1/users/verify-code"
