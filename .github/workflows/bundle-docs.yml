@@ -8,6 +8,9 @@ on:
       - 'package.json'
       - '.github/workflows/bundle-docs.yml'
 
+permissions:
+  contents: write
+
 jobs:
   bundle:
     runs-on: ubuntu-latest
