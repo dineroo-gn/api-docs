@@ -903,7 +903,7 @@ components:
           type: string
           minLength: 1
           pattern: ^(?:\+224|00224)6\d{8}$
-          example: 224623883048
+          example: '+224623883048'
         firstName:
           type: string
           example: Lamine
@@ -957,7 +957,7 @@ components:
       properties:
         telephone:
           type: string
-          example: 224623883048
+          example: '+224623883048'
         codePin:
           type: integer
           format: int32
