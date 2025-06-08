@@ -92,7 +92,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/TokenRequest'
       responses:
         '200':
           description: Token successfully generated
@@ -898,26 +898,36 @@ components:
               imageUrl: http://localhost:8080/api/images/restaurants/jardin-gourmand.png
     User:
       type: object
-      required:
-        - credentials
-        - username
       properties:
-        username:
+        telephone:
           type: string
-          example: 224666000000
+          minLength: 1
+          pattern: ^(?:\+224|00224)6\d{8}$
+          example: 224623883048
         firstName:
           type: string
-          example: Alpha
+          example: Lamine
         lastName:
           type: string
-          example: Diallo
+          example: Koumbassa
         enabled:
           type: boolean
           example: true
-        credentials:
-          type: array
-          items:
-            $ref: '#/components/schemas/Credential'
+        codePin:
+          type: integer
+          format: int32
+          maximum: 9999
+          minimum: 1000
+          example: 3432
+        role:
+          type: string
+          enum:
+            - CUSTOMER
+            - DRIVER
+      required:
+        - codePin
+        - role
+        - telephone
     ErrorResponse:
       description: Error response
       content:
@@ -942,6 +952,19 @@ components:
               - title
               - status
               - detail
+    TokenRequest:
+      type: object
+      properties:
+        telephone:
+          type: string
+          example: 224623883048
+        codePin:
+          type: integer
+          format: int32
+          example: 4567
+      required:
+        - codePin
+        - telephone
     Token:
       type: object
       required:
