@@ -2,7 +2,7 @@ type: object
 properties:
   telephone:
     type: string
-    example: +224623883048
+    example: "+224623883048"
   codePin:
     type: integer
     format: int32
