@@ -158,6 +158,7 @@ paths:
       tags:
         - User Management
       operationId: verifyCode
+      summary: Verify the code send to user by sms
       requestBody:
         content:
           application/json:
