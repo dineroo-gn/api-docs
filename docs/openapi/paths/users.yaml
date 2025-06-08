@@ -74,7 +74,7 @@ postUserToken:
       content:
         application/json:
           schema:
-            $ref: "../components/schemas/User.yaml"
+            $ref: "../components/schemas/TokenRequest.yaml"
     responses:
       "200":
         description: Token successfully generated

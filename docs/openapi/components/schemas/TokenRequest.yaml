@@ -1,0 +1,12 @@
+type: object
+properties:
+  telephone:
+    type: string
+    example: +224623883048
+  codePin:
+    type: integer
+    format: int32
+    example: 4567
+required:
+  - codePin
+  - telephone

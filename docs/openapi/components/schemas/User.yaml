@@ -1,21 +1,31 @@
 type: object
-required:
-  - credentials
-  - username
 properties:
-  username:
+  telephone:
     type: string
-    example: +224666000000
+    minLength: 1
+    pattern: ^(?:\+224|00224)6\d{8}$
+    example: +224623883048
   firstName:
     type: string
-    example: Alpha
+    example: Lamine
   lastName:
     type: string
-    example: Diallo
+    example: Koumbassa
   enabled:
     type: boolean
     example: true
-  credentials:
-    type: array
-    items:
-      $ref: "./Credential.yaml"
+  codePin:
+    type: integer
+    format: int32
+    maximum: 9999
+    minimum: 1000
+    example: 3432
+  role:
+    type: string
+    enum:
+      - CUSTOMER
+      - DRIVER
+required:
+  - codePin
+  - role
+  - telephone
