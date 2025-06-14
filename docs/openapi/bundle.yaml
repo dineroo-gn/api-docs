@@ -216,7 +216,23 @@ paths:
       requestBody:
         content:
           multipart/form-data:
-            schema: ../components/schemas/FileUploadRequest.yaml
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                userId:
+                  type: string
+                fileName:
+                  type: string
+                fileType:
+                  type: string
+              required:
+                - file
+                - fileName
+                - fileType
+                - userId
       responses:
         '200':
           description: OK
