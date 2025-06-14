@@ -201,22 +201,7 @@ uploadFile:
       content:
         multipart/form-data:
           schema:
-            type: object
-            properties:
-              file:
-                type: string
-                format: binary
-              userId:
-                type: string
-              fileName:
-                type: string
-              fileType:
-                type: string
-            required:
-              - file
-              - fileName
-              - fileType
-              - userId
+            $ref: "../components/schemas/FileUploadRequest.yaml"
     responses:
       "200":
         description: OK
