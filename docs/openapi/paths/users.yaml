@@ -191,3 +191,86 @@ verifyCode:
                 status: 500
                 detail: "Unexpected error while verifying code 3456."
                 instance: "/v1/users/verify-code"
+
+uploadFile:
+  post:
+    tags:
+      - User Management
+    operationId: uploadFile
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            "../components/schemas/FileUploadRequest.yaml"
+    responses:
+      "200":
+        description: OK
+      "400":
+        description: Invalid user ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid user id format"
+              instance: "/v1/users/upload-file"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieve file."
+              instance: "/v1/users/upload-file"
+
+downloadFile:
+  get:
+    tags:
+      - User Management
+    operationId: downloadFile
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: OK
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary
+      "404":
+        description: User not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "UserId was not found."
+              instance: "/v1/users/{userId}/download-file"
+
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieve file."
+              instance: "/v1/users/{userId}/download-file"

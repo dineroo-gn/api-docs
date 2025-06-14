@@ -18,6 +18,10 @@ paths:
     $ref: './paths/users.yaml#/postUserToken'
   /v1/users/verify-code:
     $ref: './paths/users.yaml#/verifyCode'
+  /v1/users/upload-file:
+    $ref: './paths/users.yaml#/uploadFile'
+  /v1/users/{userId}/download-file:
+    $ref: './paths/users.yaml#/downloadFile'
 
   /v1/restaurants:
     $ref: './paths/restaurants.yaml#/getRestaurants'

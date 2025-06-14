@@ -1,0 +1,16 @@
+type: object
+properties:
+  file:
+    type: string
+    format: binary
+  userId:
+    type: string
+  fileName:
+    type: string
+  fileType:
+    type: string
+required:
+  - file
+  - fileName
+  - fileType
+  - userId
