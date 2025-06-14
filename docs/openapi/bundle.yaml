@@ -217,22 +217,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                file:
-                  type: string
-                  format: binary
-                userId:
-                  type: string
-                fileName:
-                  type: string
-                fileType:
-                  type: string
-              required:
-                - file
-                - fileName
-                - fileType
-                - userId
+              $ref: '#/components/schemas/FileUploadRequest'
       responses:
         '200':
           description: OK
@@ -1088,6 +1073,23 @@ components:
           type: string
           example: 4356
           description: verification code
+    FileUploadRequest:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        userId:
+          type: string
+        fileName:
+          type: string
+        fileType:
+          type: string
+      required:
+        - file
+        - fileName
+        - fileType
+        - userId
   responses:
     ErrorResponse:
       description: Error response
