@@ -260,6 +260,12 @@ paths:
           in: query
           schema:
             type: string
+            enum:
+              - ID
+              - PROFILE_PHOTO
+              - RIB
+              - GAIN_REPORT
+          required: true
       responses:
         '200':
           description: OK
