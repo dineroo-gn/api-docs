@@ -298,6 +298,95 @@ paths:
                 status: 500
                 detail: Unexpected error while retrieve file.
                 instance: /v1/users/{userId}/download-file
+  /v1/admin/couriers/decision:
+    post:
+      tags:
+        - User Management
+      operationId: approveOrRejectCourierRegistration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+        required: true
+      responses:
+        '202':
+          description: Accepted
+          content: {}
+        '400':
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid code format
+                instance: /v1/admin/couriers/decision
+        '404':
+          description: User not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: UserId was not found.
+                instance: /v1/admin/couriers/decision
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while retrieve file.
+                instance: /v1/admin/couriers/decision
+  /v1/admin/couriers/pending-approval:
+    get:
+      tags:
+        - User Management
+      operationId: getPendingApprovalCouriers
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CourierRequest'
+        '400':
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid code format
+                instance: /v1/admin/couriers/pending-approval
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while retrieve file.
+                instance: /v1/admin/couriers/pending-approval
   /v1/restaurants:
     get:
       tags:
@@ -1095,11 +1184,49 @@ components:
           type: string
         fileType:
           type: string
+          enum:
+            - ID
+            - PROFILE_PHOTO
+            - RIB
+            - GAIN_REPORT
       required:
         - file
         - fileName
         - fileType
         - userId
+    DecisionRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+        reason:
+          type: string
+        comment:
+          type: string
+      required:
+        - status
+        - userId
+    CourierRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+        reason:
+          type: string
+        comment:
+          type: string
   responses:
     ErrorResponse:
       description: Error response
