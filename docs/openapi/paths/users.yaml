@@ -13,7 +13,7 @@ postUser:
     responses:
       "201":
         description: Created
-        content: {}
+        content: { }
       "400":
         description: Bad Request
         content:
@@ -137,60 +137,60 @@ postUserToken:
               detail: "Unexpected error occurred while generating token."
               instance: "/v1/users/token"
 verifyCode:
-    post:
-      tags:
-        - User Management
-      operationId: verifyCode
-      summary: Verify the code send to user by sms
-      requestBody:
+  post:
+    tags:
+      - User Management
+    operationId: verifyCode
+    summary: Verify the code send to user by sms
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/VerificationCode.yaml'
+      required: true
+    responses:
+      '200':
+        description: OK
         content:
-          application/json:
+          'application/json':
             schema:
-              $ref: '../components/schemas/VerificationCode.yaml'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            'application/json':
-              schema:
-                $ref: '../components/schemas/Token.yaml'
-        "400":
-          description: Invalid restaurant ID format
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Bad Request"
-                status: 400
-                detail: "Invalid code format"
-                instance: "/v1/users/verify-code"
-        "404":
-          description: Restaurant not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Not Found"
-                status: 404
-                detail: "Verification code 4525' was not found."
-                instance: "/v1/users/verify-code"
-        "500":
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Internal Server Error"
-                status: 500
-                detail: "Unexpected error while verifying code 3456."
-                instance: "/v1/users/verify-code"
+              $ref: '../components/schemas/Token.yaml'
+      "400":
+        description: Invalid restaurant ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid code format"
+              instance: "/v1/users/verify-code"
+      "404":
+        description: Restaurant not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Verification code 4525' was not found."
+              instance: "/v1/users/verify-code"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while verifying code 3456."
+              instance: "/v1/users/verify-code"
 
 uploadFile:
   post:
@@ -251,8 +251,6 @@ downloadFile:
             - RIB
             - GAIN_REPORT
         required: true
-
-
     responses:
       '200':
         description: OK
@@ -286,3 +284,98 @@ downloadFile:
               status: 500
               detail: "Unexpected error while retrieve file."
               instance: "/v1/users/{userId}/download-file"
+
+pendingCouriers:
+  get:
+    tags:
+      - User Management
+    operationId: getPendingApprovalCouriers
+    responses:
+      '200':
+        description: OK
+        content:
+          '*/*':
+            schema:
+              type: array
+              items:
+                $ref: '../components/schemas/CourierRequest.yaml'
+
+      "400":
+        description: Invalid restaurant ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid code format"
+              instance: "/v1/admin/couriers/pending-approval"
+
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieve file."
+              instance: "/v1/admin/couriers/pending-approval"
+
+decision:
+  post:
+    tags:
+      - User Management
+    operationId: approveOrRejectCourierRegistration
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/DecisionRequest.yaml'
+      required: true
+    responses:
+      '202':
+        description: Accepted
+        content: { }
+      "400":
+        description: Invalid restaurant ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid code format"
+              instance: "/v1/admin/couriers/decision"
+
+      "404":
+        description: User not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "UserId was not found."
+              instance: "/v1/admin/couriers/decision"
+
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieve file."
+              instance: "/v1/admin/couriers/decision"

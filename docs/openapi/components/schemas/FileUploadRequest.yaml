@@ -9,6 +9,11 @@ properties:
     type: string
   fileType:
     type: string
+    enum:
+      - ID
+      - PROFILE_PHOTO
+      - RIB
+      - GAIN_REPORT
 required:
   - file
   - fileName

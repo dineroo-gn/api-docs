@@ -1,0 +1,14 @@
+type: object
+properties:
+  id:
+    type: string
+  status:
+    type: string
+    enum:
+      - PENDING
+      - APPROVED
+      - REJECTED
+  reason:
+    type: string
+  comment:
+    type: string

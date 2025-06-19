@@ -22,6 +22,10 @@ paths:
     $ref: './paths/users.yaml#/uploadFile'
   /v1/users/{userId}/download-file:
     $ref: './paths/users.yaml#/downloadFile'
+  /v1/admin/couriers/decision:
+    $ref: './paths/users.yaml#/decision'
+  /v1/admin/couriers/pending-approval:
+    $ref: './paths/users.yaml#/pendingCouriers'
 
   /v1/restaurants:
     $ref: './paths/restaurants.yaml#/getRestaurants'
@@ -52,6 +56,7 @@ components:
     RestaurantItem:         { $ref: './components/schemas/RestaurantItem.yaml' }
     RestaurantCollection:   { $ref: './components/schemas/RestaurantCollection.yaml' }
     User:                   { $ref: './components/schemas/User.yaml' }
+
 
   responses:
     ErrorResponse:          { $ref: './components/responses/ErrorResponse.yaml' }
