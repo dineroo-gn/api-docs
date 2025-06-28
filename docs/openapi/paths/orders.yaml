@@ -221,3 +221,56 @@ getOrdersByCustomer:
               status: 500
               detail: "Unexpected error while retrieving orders for the customer."
               instance: "/v1/customers/{customerId}/orders"
+
+cancelOrder:
+  patch:
+    tags:
+      - Order Management
+    summary: Cancel an existing order
+    operationId: cancelOrder
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: OK
+      "400":
+        description: Cannot cancel this order
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Only pending orders can be cancelled."
+              instance: "/v1/orders/12/cancel"
+      "404":
+        description: Order not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Order with ID '12' was not found."
+              instance: "/v1/orders/12/cancel"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while cancelling the order."
+              instance: "/v1/orders/{id}/cancel"

@@ -40,6 +40,8 @@ paths:
     $ref: './paths/orders.yaml#/getOrderById'
   /v1/customers/{customerId}/orders:
     $ref: './paths/orders.yaml#/getOrdersByCustomer'
+  /v1/orders/{id}/cancel:
+    $ref: './paths/orders.yaml#/cancelOrder'
 
 components:
   schemas:
