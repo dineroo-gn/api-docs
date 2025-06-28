@@ -440,6 +440,8 @@ paths:
                 instance: /v1/admin/users/{userId}/logout
   /v1/admin/users/{userId}:
     patch:
+      tags:
+        - User Management
       operationId: disableAccount
       parameters:
         - name: userId
