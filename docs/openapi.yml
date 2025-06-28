@@ -247,6 +247,15 @@ paths:
         - Order Management
       operationId: getAllOrders
       summary: Retrieve all orders
+      parameters:
+        - name: sort
+          in: query
+          description: Sort direction of orders by createdDate
+          required: false
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: DESC
       responses:
         '200':
           description: OK
@@ -388,6 +397,14 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: sort
+          in: query
+          description: Sort direction of orders by createdDate
+          required: false
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: DESC
       responses:
         '200':
           description: OK
