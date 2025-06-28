@@ -646,6 +646,13 @@ paths:
         - Order Management
       summary: Retrieve all orders
       operationId: getAllOrders
+      parameters:
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: desc
       responses:
         '200':
           description: OK
