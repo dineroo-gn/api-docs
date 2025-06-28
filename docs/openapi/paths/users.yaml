@@ -382,7 +382,7 @@ decision:
 
 disableAccount:
   patch:
-    tags: User Management
+    tags:  User Management
     operationId: disableAccount
     parameters:
       - name: userId
@@ -442,7 +442,7 @@ disableAccount:
 logout:
   post:
     tags:
-      - user Management
+      - User Management
     operationId: logout
     parameters:
       - name: userId
