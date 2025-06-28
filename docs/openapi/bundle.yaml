@@ -390,7 +390,7 @@ paths:
   /v1/admin/users/{userId}/logout:
     post:
       tags:
-        - user Management
+        - User Management
       operationId: logout
       parameters:
         - name: userId
