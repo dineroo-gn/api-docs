@@ -399,7 +399,6 @@ paths:
             format: uuid
         - name: sort
           in: query
-          description: Sort direction of orders by createdDate
           required: false
           schema:
             type: string
