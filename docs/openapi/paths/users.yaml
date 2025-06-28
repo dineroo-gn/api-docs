@@ -382,7 +382,8 @@ decision:
 
 disableAccount:
   patch:
-    tags:  User Management
+    tags:
+      - User Management
     operationId: disableAccount
     parameters:
       - name: userId
