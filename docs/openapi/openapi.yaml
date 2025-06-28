@@ -26,6 +26,10 @@ paths:
     $ref: './paths/users.yaml#/decision'
   /v1/admin/couriers/pending-approval:
     $ref: './paths/users.yaml#/pendingCouriers'
+  /v1/admin/users/{userId}/logout:
+    $ref: './paths/users.yaml#/logout'
+  /v1/admin/users/{userId}:
+    $ref: './paths/users.yaml#/disableAccount'
 
   /v1/restaurants:
     $ref: './paths/restaurants.yaml#/getRestaurants'

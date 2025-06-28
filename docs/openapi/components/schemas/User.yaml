@@ -3,28 +3,27 @@ properties:
   telephone:
     type: string
     minLength: 1
-    pattern: ^(?:\+224|00224)6\d{8}$
-    example: "+224623883048"
+    pattern: "^(?:\\+224|00224)6\\d{8}$"
   firstName:
     type: string
-    example: Lamine
+    maxLength: 2147483647
+    minLength: 2
   lastName:
     type: string
-    example: Koumbassa
+    maxLength: 2147483647
+    minLength: 2
   enabled:
     type: boolean
-    example: true
   codePin:
-    type: integer
-    format: int32
-    maximum: 9999
-    minimum: 1000
-    example: 3432
+    type: string
+    pattern: "^\\d{4}$"
   role:
     type: string
     enum:
       - CUSTOMER
       - DRIVER
+      - GUEST
+      - ADMIN
 required:
   - codePin
   - role
