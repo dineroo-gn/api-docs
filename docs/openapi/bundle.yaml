@@ -497,6 +497,58 @@ paths:
                 status: 500
                 detail: Unexpected error while retrieve file.
                 instance: /v1/admin/users/{userId}
+  /v1/admin/users:
+    get:
+      '400':
+        description: Invalid restaurant ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: ../components/responses/ErrorResponse.yaml
+            example:
+              type: about:blank
+              title: Bad Request
+              status: 400
+              detail: Invalid code format
+              instance: /v1/admin/users
+      '500':
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: ../components/responses/ErrorResponse.yaml
+            example:
+              type: about:blank
+              title: Internal Server Error
+              status: 500
+              detail: Unexpected error when retrieving error.
+              instance: /v1/admin/users
+      tags:
+        - User Management
+      operationId: getUsers
+      parameters:
+        - name: roles
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - CUSTOMER
+                - DRIVER
+                - GUEST
+                - ADMIN
+                - UNKNOWN
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
   /v1/restaurants:
     get:
       tags:
@@ -1395,6 +1447,39 @@ components:
           type: string
         comment:
           type: string
+    UserResponse:
+      UserResponse: null
+      type: object
+      properties:
+        id:
+          type: string
+        telephone:
+          type: string
+        role:
+          type: string
+          enum:
+            - CUSTOMER
+            - DRIVER
+            - GUEST
+            - ADMIN
+            - UNKNOWN
+        firstName:
+          type: string
+        lastName:
+          type: string
+        enabled:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+      required:
+        - telephone
   responses:
     ErrorResponse:
       description: Error response
