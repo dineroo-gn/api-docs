@@ -491,3 +491,58 @@ logout:
               status: 400
               detail: "Invalid data"
               instance: "/v1/admin/users/{userId}/logout"
+
+userList:
+  get:
+    tags:
+      - User Management
+    operationId: getUsers
+    parameters:
+      - name: roles
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+              - CUSTOMER
+              - DRIVER
+              - GUEST
+              - ADMIN
+              - UNKNOWN
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas/UserResponse.yaml"
+
+    "400":
+      description: Invalid restaurant ID format
+      content:
+        application/problem+json:
+          schema:
+            $ref: "../components/responses/ErrorResponse.yaml"
+          example:
+            type: "about:blank"
+            title: "Bad Request"
+            status: 400
+            detail: "Invalid code format"
+            instance: "/v1/admin/users"
+
+    "500":
+      description: Internal server error
+      content:
+        application/problem+json:
+          schema:
+            $ref: "../components/responses/ErrorResponse.yaml"
+          example:
+            type: "about:blank"
+            title: "Internal Server Error"
+            status: 500
+            detail: "Unexpected error when retrieving error."
+            instance: "/v1/admin/users"
