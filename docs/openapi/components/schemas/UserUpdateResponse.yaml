@@ -6,5 +6,5 @@ properties:
     type: string
   lastName:
     type: string
-required:
-  - telephone
+  required:
+   - telephone
