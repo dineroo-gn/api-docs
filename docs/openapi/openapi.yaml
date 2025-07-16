@@ -22,6 +22,12 @@ paths:
     $ref: './paths/users.yaml#/uploadFile'
   /v1/users/{userId}/download-file:
     $ref: './paths/users.yaml#/downloadFile'
+  /v1/users/{userId}:
+    $ref: './paths/users.yaml#/updateUserProfile'
+  /v1/users/validate-code:
+    $ref: './paths/users.yaml#/validateCode'
+  /v1/users/send-code:
+    $ref: './paths/users.yaml#/sendVerificationCode'
   /v1/admin/couriers/decision:
     $ref: './paths/users.yaml#/decision'
   /v1/admin/couriers/pending-approval:

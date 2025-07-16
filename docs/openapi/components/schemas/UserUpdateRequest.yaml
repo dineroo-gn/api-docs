@@ -1,0 +1,15 @@
+type: object
+properties:
+  firstName:
+    type: string
+    maxLength: 2147483647
+    minLength: 2
+  lastName:
+    type: string
+    maxLength: 2147483647
+    minLength: 2
+  telephone:
+    type: string
+    pattern: "^(?:\\+224|00224)6\\d{8}$"
+  required:
+    - telephone

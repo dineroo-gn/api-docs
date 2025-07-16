@@ -1,0 +1,7 @@
+type: object
+properties:
+  id:
+    type: string
+  telephone:
+    type: string
+    pattern: "^(?:\\+224|00224)6\\d{8}$"
