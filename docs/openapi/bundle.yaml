@@ -1565,8 +1565,8 @@ components:
           type: string
         lastName:
           type: string
-      required:
-        - telephone
+        required:
+          - telephone
     ValidationCodeRequest:
       type: object
       properties:
