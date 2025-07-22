@@ -676,7 +676,7 @@ validateCode:
               detail: "Unexpected error when retrieving error."
               instance: "/v1/users/validate-code"
 
-createOrganization:
+organizations:
   post:
     tags:
       - Organization Management
@@ -718,8 +718,6 @@ createOrganization:
                 status: 500
                 detail: "Unexpected error when retrieving error."
                 instance: "/v1/organizations"
-
-fetchOrganizations:
   get:
     tags:
       - Organization Management
