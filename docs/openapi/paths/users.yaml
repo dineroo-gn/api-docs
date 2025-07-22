@@ -548,65 +548,65 @@ userList:
             instance: "/v1/admin/users"
 
 updateUserProfile:
-    put:
-      tags:
-        - User Management
-      operationId: updateUser
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "../components/schemas/UserUpdateRequest.yaml"
+  put:
+    tags:
+      - User Management
+    operationId: updateUser
+    parameters:
+      - name: userId
+        in: path
         required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            'application/json':
-              schema:
-                $ref: "../components/schemas/UserUpdateResponse.yaml"
-        "400":
-          description: Invalid data
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Bad Request"
-                status: 400
-                detail: "Invalid code format"
-                instance: "/v1/users/{userId}"
-        "404":
-          description: User not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Not Found"
-                status: 404
-                detail: "UserId was not found."
-                instance: "/v1/users/{userId}"
-        "500":
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Internal Server Error"
-                status: 500
-                detail: "Unexpected error when retrieving error."
-                instance: "/v1/users/{userId}"
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/UserUpdateRequest.yaml"
+      required: true
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/UserUpdateResponse.yaml"
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid code format"
+              instance: "/v1/users/{userId}"
+      "404":
+        description: User not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "UserId was not found."
+              instance: "/v1/users/{userId}"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/users/{userId}"
 
 sendVerificationCode:
   post:
@@ -682,42 +682,42 @@ organizations:
       - Organization Management
     operationId: createOrganization
     requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "../components/schemas/CreateOrganizationRequest.yaml"
-        required: true
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CreateOrganizationRequest.yaml"
+      required: true
     responses:
-        "201":
-          description: Created
-          content:
-            'application/json':
-              schema:
-                $ref: "../components/schemas/OrganizationResponse.yaml"
-        "400":
-          description: Invalid data
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Bad Request"
-                status: 400
-                detail: "Invalid data"
-                instance: "/v1/organizations"
-        "500":
-          description: Internal server error
-          content:
-            application/problem+json:
-              schema:
-                $ref: "../components/responses/ErrorResponse.yaml"
-              example:
-                type: "about:blank"
-                title: "Internal Server Error"
-                status: 500
-                detail: "Unexpected error when retrieving error."
-                instance: "/v1/organizations"
+      "201":
+        description: Created
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/OrganizationResponse.yaml"
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid data"
+              instance: "/v1/organizations"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/organizations"
   get:
     tags:
       - Organization Management
@@ -811,3 +811,65 @@ addMember:
               status: 404
               detail: "UserId was not found."
               instance: "/v1/organizations/{organizationId}/members"
+
+resetCodePin:
+  put:
+    tags:
+      - User Management
+    operationId: resetCodePin
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CredentialRequest.yaml"
+      required: true
+    responses:
+      "204":
+        description: No Content
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/Token.yaml"
+
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid data"
+              instance: "/v1/users/{userId}/reset-code-pin"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/users/{userId}/reset-code-pin"
+      "404":
+        description: Code not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "UserId was not found."
+              instance: "/v1/users/{userId}/reset-code-pin"

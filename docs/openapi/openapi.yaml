@@ -28,6 +28,8 @@ paths:
     $ref: './paths/users.yaml#/validateCode'
   /v1/users/send-code:
     $ref: './paths/users.yaml#/sendVerificationCode'
+  /v1/users/{userId}/reset-code-pin:
+    $ref: './paths/users.yaml#/resetCodePin'
   /v1/admin/couriers/decision:
     $ref: './paths/users.yaml#/decision'
   /v1/admin/couriers/pending-approval:
