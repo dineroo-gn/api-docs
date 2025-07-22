@@ -676,9 +676,82 @@ paths:
                 items:
                   $ref: '#/components/schemas/UserResponse'
   /v1/organizations:
-    $ref:
-      - ./paths/users.yaml#/createOrganization
-      - ./paths/users.yaml#/fetchOrganizations
+    post:
+      tags:
+        - Organization Management
+      operationId: createOrganization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrganizationRequest'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+        '400':
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid data
+                instance: /v1/organizations
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error when retrieving error.
+                instance: /v1/organizations
+    get:
+      tags:
+        - Organization Management
+      operationId: getOrganizations
+      responses:
+        '200':
+          description: List of organizations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizationResponse'
+        '400':
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid data
+                instance: /v1/organizations
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error when retrieving error.
+                instance: /v1/organizations
   /v1/organizations/{organizationId}/members:
     post:
       tags:
@@ -1709,6 +1782,37 @@ components:
             - REJECTED
       required:
         - telephone
+    OrganizationResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        state:
+          type: string
+          enum:
+            - PRE_REGISTERED
+            - AGREEMENT_PENDING
+            - ADMIN_SETUP
+            - ACTIVE
+            - DECLINED
+            - SUSPENDED
+        createdDate:
+          type: string
+          format: date-time
+        lastModifiedDate:
+          type: string
+          format: date-time
+      required:
+        - name
+    CreateOrganizationRequest:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
   responses:
     ErrorResponse:
       description: Error response
