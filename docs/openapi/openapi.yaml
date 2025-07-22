@@ -41,8 +41,8 @@ paths:
 
   /v1/organizations:
     $ref:
-     - './paths/users.yaml#/createOrganization'
-     - './paths/users.yaml#/fetchOrganizations'
+      './paths/users.yaml#/createOrganization'
+     './paths/users.yaml#/fetchOrganizations'
   /v1/organizations/{organizationId}/members:
     $ref: './paths/users.yaml#/addMember'
 
