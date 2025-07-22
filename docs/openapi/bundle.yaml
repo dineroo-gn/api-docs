@@ -424,6 +424,66 @@ paths:
                 status: 500
                 detail: Unexpected error when retrieving error.
                 instance: /v1/users/{userId}
+  /v1/users/{userId}/reset-code-pin:
+    put:
+      tags:
+        - User Management
+      operationId: resetCodePin
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid data
+                instance: /v1/users/{userId}/reset-code-pin
+        '404':
+          description: Code not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: UserId was not found.
+                instance: /v1/users/{userId}/reset-code-pin
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error when retrieving error.
+                instance: /v1/users/{userId}/reset-code-pin
   /v1/admin/couriers/decision:
     post:
       tags:
@@ -1716,6 +1776,14 @@ components:
         telephone:
           type: string
           pattern: ^(?:\+224|00224)6\d{8}$
+    CredentialRequest:
+      type: object
+      properties:
+        codePin:
+          type: string
+          pattern: ^\d{4}$
+      required:
+        - codePin
     DecisionRequest:
       type: object
       properties:
