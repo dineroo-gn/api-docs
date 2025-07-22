@@ -39,6 +39,14 @@ paths:
   /v1/admin/users:
     $ref:  './paths/users.yaml#/userList'
 
+  /v1/organizations:
+    $ref:
+     - './paths/users.yaml#/createOrganization'
+     - './paths/users.yaml#/fetchOrganizations'
+  /v1/organizations/{organizationId}/members:
+    $ref: './paths/users.yaml#/addMember'
+
+
   /v1/restaurants:
     $ref: './paths/restaurants.yaml#/getRestaurants'
   /v1/restaurants/{restaurantId}:

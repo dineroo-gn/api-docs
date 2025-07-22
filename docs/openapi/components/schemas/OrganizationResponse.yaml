@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  state:
+    type: string
+    enum:
+      - PRE_REGISTERED
+      - AGREEMENT_PENDING
+      - ADMIN_SETUP
+      - ACTIVE
+      - DECLINED
+      - SUSPENDED
+  createdDate:
+    type: string
+    format: date-time
+  lastModifiedDate:
+    type: string
+    format: date-time
+required:
+  - name

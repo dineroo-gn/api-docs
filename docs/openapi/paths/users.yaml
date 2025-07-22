@@ -675,3 +675,141 @@ validateCode:
               status: 500
               detail: "Unexpected error when retrieving error."
               instance: "/v1/users/validate-code"
+
+createOrganization:
+  post:
+    tags:
+      - Organization Management
+    operationId: createOrganization
+    requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/CreateOrganizationRequest.yaml"
+        required: true
+    responses:
+        "201":
+          description: Created
+          content:
+            'application/json':
+              schema:
+                $ref: "../components/schemas/OrganizationResponse.yaml"
+        "400":
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../components/responses/ErrorResponse.yaml"
+              example:
+                type: "about:blank"
+                title: "Bad Request"
+                status: 400
+                detail: "Invalid data"
+                instance: "/v1/organizations"
+        "500":
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../components/responses/ErrorResponse.yaml"
+              example:
+                type: "about:blank"
+                title: "Internal Server Error"
+                status: 500
+                detail: "Unexpected error when retrieving error."
+                instance: "/v1/organizations"
+
+fetchOrganizations:
+  get:
+    tags:
+      - Organization Management
+    operationId: getOrganizations
+    responses:
+      "200":
+        description: List of organizations
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/OrganizationResponse.yaml"
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid data"
+              instance: "/v1/organizations"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/organizations"
+
+addMember:
+  post:
+    tags:
+      - Organization Management
+    operationId: addMembers
+    parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/User.yaml"
+      required: true
+    responses:
+      "201":
+        description: Created
+        content: { }
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid data"
+              instance: "/v1/organizations/{organizationId}"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/organizations/{organizationId}/members"
+      "404":
+        description: Code not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "UserId was not found."
+              instance: "/v1/organizations/{organizationId}/members"
