@@ -675,6 +675,67 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserResponse'
+  /v1/organizations:
+    $ref:
+      - ./paths/users.yaml#/createOrganization
+      - ./paths/users.yaml#/fetchOrganizations
+  /v1/organizations/{organizationId}/members:
+    post:
+      tags:
+        - Organization Management
+      operationId: addMembers
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content: {}
+        '400':
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid data
+                instance: /v1/organizations/{organizationId}
+        '404':
+          description: Code not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: UserId was not found.
+                instance: /v1/organizations/{organizationId}/members
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error when retrieving error.
+                instance: /v1/organizations/{organizationId}/members
   /v1/restaurants:
     get:
       tags:
