@@ -754,7 +754,7 @@ organizations:
               detail: "Unexpected error when retrieving error."
               instance: "/v1/organizations"
 
-addMember:
+members:
   post:
     tags:
       - Organization Management
@@ -812,11 +812,55 @@ addMember:
               detail: "UserId was not found."
               instance: "/v1/organizations/{organizationId}/members"
 
-resetCodePin:
+  get:
+    tags:
+      - Organization Management
+    operationId: getOrganizationMembers
+    parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas/UserResponse.yaml"
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid data"
+              instance: "/v1/organizations"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/organizations"
+
+resetCodePinWithUserId:
   put:
     tags:
       - User Management
-    operationId: resetCodePin
+    operationId: resetCodePinWithUserId
     parameters:
       - name: userId
         in: path
@@ -848,7 +892,7 @@ resetCodePin:
               title: "Bad Request"
               status: 400
               detail: "Invalid data"
-              instance: "/v1/users/{userId}/reset-code-pin"
+              instance: "/v1/users/{userId}/reset-code-pin-with-id"
       "500":
         description: Internal server error
         content:
@@ -860,7 +904,7 @@ resetCodePin:
               title: "Internal Server Error"
               status: 500
               detail: "Unexpected error when retrieving error."
-              instance: "/v1/users/{userId}/reset-code-pin"
+              instance: "/v1/users/{userId}/reset-code-pin-with-id"
       "404":
         description: Code not found
         content:
@@ -872,4 +916,69 @@ resetCodePin:
               title: "Not Found"
               status: 404
               detail: "UserId was not found."
-              instance: "/v1/users/{userId}/reset-code-pin"
+              instance: "/v1/users/{userId}/reset-code-pin-with-id"
+
+resetCodePinWithPhoneNumber:
+  put:
+    tags:
+      - User Management
+    operationId: resetCodePinWithPhoneNumber
+    parameters:
+      - name: telephone
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/CredentialRequest.yaml"
+      required: true
+    responses:
+      "204":
+        description: No Content
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/Token.yaml"
+
+      "400":
+        description: Invalid data
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid data"
+              instance: "/v1/users/{userId}/reset-code-pin-with-phone"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error when retrieving error."
+              instance: "/v1/users/{userId}/reset-code-pin-with-phone"
+      "404":
+        description: Code not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "UserId was not found."
+              instance: "/v1/users/{userId}/reset-code-pin-with-phone"
+
+
+
