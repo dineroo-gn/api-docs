@@ -424,11 +424,11 @@ paths:
                 status: 500
                 detail: Unexpected error when retrieving error.
                 instance: /v1/users/{userId}
-  /v1/users/{userId}/reset-code-pin:
+  /v1/users/{userId}/reset-code-pin-with-id:
     put:
       tags:
         - User Management
-      operationId: resetCodePin
+      operationId: resetCodePinWithUserId
       parameters:
         - name: userId
           in: path
@@ -459,7 +459,7 @@ paths:
                 title: Bad Request
                 status: 400
                 detail: Invalid data
-                instance: /v1/users/{userId}/reset-code-pin
+                instance: /v1/users/{userId}/reset-code-pin-with-id
         '404':
           description: Code not found
           content:
@@ -471,7 +471,7 @@ paths:
                 title: Not Found
                 status: 404
                 detail: UserId was not found.
-                instance: /v1/users/{userId}/reset-code-pin
+                instance: /v1/users/{userId}/reset-code-pin-with-id
         '500':
           description: Internal server error
           content:
@@ -483,7 +483,67 @@ paths:
                 title: Internal Server Error
                 status: 500
                 detail: Unexpected error when retrieving error.
-                instance: /v1/users/{userId}/reset-code-pin
+                instance: /v1/users/{userId}/reset-code-pin-with-id
+  /v1/users/{userId}/reset-code-pin-with-phone:
+    put:
+      tags:
+        - User Management
+      operationId: resetCodePinWithPhoneNumber
+      parameters:
+        - name: telephone
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialRequest'
+        required: true
+      responses:
+        '204':
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid data
+                instance: /v1/users/{userId}/reset-code-pin-with-phone
+        '404':
+          description: Code not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: UserId was not found.
+                instance: /v1/users/{userId}/reset-code-pin-with-phone
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error when retrieving error.
+                instance: /v1/users/{userId}/reset-code-pin-with-phone
   /v1/admin/couriers/decision:
     post:
       tags:
@@ -869,6 +929,49 @@ paths:
                 status: 500
                 detail: Unexpected error when retrieving error.
                 instance: /v1/organizations/{organizationId}/members
+    get:
+      tags:
+        - Organization Management
+      operationId: getOrganizationMembers
+      parameters:
+        - name: organizationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid data
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid data
+                instance: /v1/organizations
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error when retrieving error.
+                instance: /v1/organizations
   /v1/restaurants:
     get:
       tags:
