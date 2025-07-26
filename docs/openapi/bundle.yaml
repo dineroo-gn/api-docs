@@ -544,6 +544,60 @@ paths:
                 status: 500
                 detail: Unexpected error when retrieving error.
                 instance: /v1/users/{userId}/reset-code-pin-with-phone
+  /v1/users/{telephone}:
+    get:
+      tags:
+        - User Management
+      operationId: getUserByPhone
+      parameters:
+        - name: telephone
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Invalid telephone format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid code phone number
+                instance: /v1/users/{telephone}
+        '404':
+          description: User not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: User was not found.
+                instance: /v1/users/{telephone}
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while retrieve user.
+                instance: /v1/users/{telephone}
   /v1/admin/couriers/decision:
     post:
       tags:
@@ -1887,39 +1941,6 @@ components:
           pattern: ^\d{4}$
       required:
         - codePin
-    DecisionRequest:
-      type: object
-      properties:
-        userId:
-          type: string
-        status:
-          type: string
-          enum:
-            - PENDING
-            - APPROVED
-            - REJECTED
-        reason:
-          type: string
-        comment:
-          type: string
-      required:
-        - status
-        - userId
-    CourierRequest:
-      type: object
-      properties:
-        id:
-          type: string
-        status:
-          type: string
-          enum:
-            - PENDING
-            - APPROVED
-            - REJECTED
-        reason:
-          type: string
-        comment:
-          type: string
     UserResponse:
       UserResponse: null
       type: object
@@ -1953,6 +1974,39 @@ components:
             - REJECTED
       required:
         - telephone
+    DecisionRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+        reason:
+          type: string
+        comment:
+          type: string
+      required:
+        - status
+        - userId
+    CourierRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - APPROVED
+            - REJECTED
+        reason:
+          type: string
+        comment:
+          type: string
     OrganizationResponse:
       type: object
       properties:
