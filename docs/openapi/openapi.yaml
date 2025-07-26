@@ -32,6 +32,8 @@ paths:
     $ref: './paths/users.yaml#/resetCodePinWithUserId'
   /v1/users/{userId}/reset-code-pin-with-phone:
     $ref: './paths/users.yaml#/resetCodePinWithPhoneNumber'
+  /v1/users/{telephone}:
+    $ref: './paths/users.yaml#/getUserByPhone'
   /v1/admin/couriers/decision:
     $ref: './paths/users.yaml#/decision'
   /v1/admin/couriers/pending-approval:

@@ -980,5 +980,60 @@ resetCodePinWithPhoneNumber:
               detail: "UserId was not found."
               instance: "/v1/users/{userId}/reset-code-pin-with-phone"
 
+getUserByPhone:
+  get:
+    tags:
+      - User Management
+    operationId: getUserByPhone
+    parameters:
+      - name: telephone
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/UserResponse.yaml"
+      "400":
+        description: Invalid telephone format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid code phone number"
+              instance: "/v1/users/{telephone}"
+      "404":
+        description: User not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "User was not found."
+              instance: "/v1/users/{telephone}"
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while retrieve user."
+              instance: "/v1/users/{telephone}"
+
 
 
