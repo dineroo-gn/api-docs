@@ -100,11 +100,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Token'
-              example:
-                accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-                refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-                expiresIn: 3600
-                refreshExpiresIn: 86400
         '400':
           description: Bad Request
           content:
@@ -444,10 +439,6 @@ paths:
       responses:
         '204':
           description: No Content
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Token'
         '400':
           description: Invalid data
           content:
@@ -504,10 +495,6 @@ paths:
       responses:
         '204':
           description: No Content
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Token'
         '400':
           description: Invalid data
           content:
