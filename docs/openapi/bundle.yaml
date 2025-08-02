@@ -1862,6 +1862,9 @@ components:
           type: integer
           format: int32
           example: 86400
+        isTemporaryPin:
+          type: boolean
+          example: false
     VerificationCode:
       type: object
       properties:
