@@ -82,11 +82,6 @@ postUserToken:
           application/json:
             schema:
               $ref: "../components/schemas/Token.yaml"
-            example:
-              accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-              refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-              expiresIn: 3600
-              refreshExpiresIn: 86400
       "400":
         description: Bad Request
         content:
@@ -876,11 +871,6 @@ resetCodePinWithUserId:
     responses:
       "204":
         description: No Content
-        content:
-          'application/json':
-            schema:
-              $ref: "../components/schemas/Token.yaml"
-
       "400":
         description: Invalid data
         content:
@@ -938,10 +928,6 @@ resetCodePinWithPhoneNumber:
     responses:
       "204":
         description: No Content
-        content:
-          'application/json':
-            schema:
-              $ref: "../components/schemas/Token.yaml"
 
       "400":
         description: Invalid data
