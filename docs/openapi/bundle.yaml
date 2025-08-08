@@ -1715,6 +1715,7 @@ components:
           example: Koloma Carrefour
         phone:
           type: string
+          example: 224625203040
         description:
           type: string
           example: Good restaurant with delicious dishes
@@ -2055,8 +2056,10 @@ components:
       properties:
         start:
           type: string
+          example: '10:00'
         end:
           type: string
+          example: '15:00'
     OpeningHours:
       type: object
       properties:
@@ -2070,6 +2073,7 @@ components:
             - FRIDAY
             - SATURDAY
             - SUNDAY
+          example: MONDAY
         timeRanges:
           type: array
           items:
@@ -2080,9 +2084,11 @@ components:
         longitude:
           type: number
           format: double
+          example: 11.364534
         latitude:
           type: number
           format: double
+          example: 45.46423
   responses:
     ErrorResponse:
       description: Error response
