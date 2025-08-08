@@ -29,3 +29,6 @@ properties:
       - APPETIZER
       - DESSERT
     example: DISH
+  available:
+    type: boolean
+    example: true

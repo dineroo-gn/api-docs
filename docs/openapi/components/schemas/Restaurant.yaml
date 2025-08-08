@@ -15,6 +15,8 @@ properties:
   address:
     type: string
     example: Koloma Carrefour
+  phone:
+    type: string
   description:
     type: string
     example: Good restaurant with delicious dishes
@@ -29,3 +31,9 @@ properties:
     type: array
     items:
       $ref: "./Product.yaml"
+  openingHours:
+    type: array
+    items:
+      $ref: "./OpeningHours.yaml"
+  location:
+    $ref: "./Location.yaml"

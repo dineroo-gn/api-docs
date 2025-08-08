@@ -1,0 +1,16 @@
+type: object
+properties:
+  day:
+    type: string
+    enum:
+      - MONDAY
+      - TUESDAY
+      - WEDNESDAY
+      - THURSDAY
+      - FRIDAY
+      - SATURDAY
+      - SUNDAY
+  timeRanges:
+    type: array
+    items:
+      $ref: "./TimeRange.yaml"

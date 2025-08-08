@@ -21,3 +21,6 @@ properties:
     type: number
     format: float
     example: 26.9
+  available:
+    type: boolean
+    example: true
