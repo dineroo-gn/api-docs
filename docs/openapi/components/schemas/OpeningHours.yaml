@@ -10,6 +10,7 @@ properties:
       - FRIDAY
       - SATURDAY
       - SUNDAY
+    example: MONDAY
   timeRanges:
     type: array
     items:

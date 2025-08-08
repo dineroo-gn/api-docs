@@ -17,6 +17,7 @@ properties:
     example: Koloma Carrefour
   phone:
     type: string
+    example: +224625203040
   description:
     type: string
     example: Good restaurant with delicious dishes

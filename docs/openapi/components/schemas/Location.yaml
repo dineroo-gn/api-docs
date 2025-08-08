@@ -3,6 +3,8 @@ properties:
   longitude:
     type: number
     format: double
+    example: 11.364534
   latitude:
     type: number
     format: double
+    example: 45.46423
