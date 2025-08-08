@@ -1502,6 +1502,9 @@ components:
           type: number
           format: float
           example: 26.9
+        available:
+          type: boolean
+          example: true
     MenuResponse:
       allOf:
         - $ref: '#/components/schemas/Menu'
@@ -1689,6 +1692,9 @@ components:
             - APPETIZER
             - DESSERT
           example: DISH
+        available:
+          type: boolean
+          example: true
     Restaurant:
       type: object
       required:
@@ -1707,6 +1713,8 @@ components:
         address:
           type: string
           example: Koloma Carrefour
+        phone:
+          type: string
         description:
           type: string
           example: Good restaurant with delicious dishes
@@ -1721,6 +1729,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Product'
+        openingHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpeningHours'
+        location:
+          $ref: '#/components/schemas/Location'
     RestaurantItem:
       type: object
       required:
@@ -1737,12 +1751,20 @@ components:
         address:
           type: string
           example: Petit Simbaya
+        phone:
+          type: string
         description:
           type: string
           example: Restaurant de produits locaux
         imageUrl:
           type: string
           example: http://localhost:8080/api/images/restaurants/gastro-africa.png
+        openingHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpeningHours'
+        location:
+          $ref: '#/components/schemas/Location'
     RestaurantCollection:
       type: object
       properties:
@@ -2028,6 +2050,39 @@ components:
           type: string
       required:
         - name
+    TimeRange:
+      type: object
+      properties:
+        start:
+          type: string
+        end:
+          type: string
+    OpeningHours:
+      type: object
+      properties:
+        day:
+          type: string
+          enum:
+            - MONDAY
+            - TUESDAY
+            - WEDNESDAY
+            - THURSDAY
+            - FRIDAY
+            - SATURDAY
+            - SUNDAY
+        timeRanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeRange'
+    Location:
+      type: object
+      properties:
+        longitude:
+          type: number
+          format: double
+        latitude:
+          type: number
+          format: double
   responses:
     ErrorResponse:
       description: Error response
