@@ -1156,6 +1156,50 @@ paths:
                 status: 500
                 detail: Unexpected error while retrieving the menu.
                 instance: /v1/restaurants/{restaurantId}/menus/{menuId}
+  /v1/restaurants/files/upload:
+    post:
+      tags:
+        - Restaurant Management
+      operationId: uploadRawData
+      summary: Upload zip file containing a restaurant raw data
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+                - file
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Invalid file
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid zip file
+                instance: /v1/restaurants/files/upload
+        '500':
+          description: Internal server error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while uploading the zip to wasabi.
+                instance: /v1/restaurants/files/upload
   /v1/orders:
     get:
       tags:
