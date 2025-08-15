@@ -159,8 +159,12 @@ uploadRawData:
               file:
                 type: string
                 format: binary
+              organizationId:
+                type: string
+                example: 579acecc-59e3-46f1-9e52-4a6da1a5e768
             required:
               - file
+              - organizationId
     responses:
       "201":
         description: Created
