@@ -4,13 +4,36 @@ getRestaurants:
       - Restaurant Management
     summary: Retrieve all restaurants
     operationId: getRestaurants
+    parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 1
+          minimum: 1
+      - name: size
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+          minimum: 1
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          default: name
     responses:
       "200":
         description: A list of available restaurants
         content:
           application/json:
             schema:
-              $ref: "../components/schemas/RestaurantCollection.yaml"
+              $ref: "../components/schemas/RestaurantCollectionResponse.yaml"
       "500":
         description: Internal server error
         content:
