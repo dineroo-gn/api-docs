@@ -1019,13 +1019,36 @@ paths:
         - Restaurant Management
       summary: Retrieve all restaurants
       operationId: getRestaurants
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 1
+            minimum: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            minimum: 1
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            default: name
       responses:
         '200':
           description: A list of available restaurants
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RestaurantCollection'
+                $ref: '#/components/schemas/RestaurantCollectionResponse'
         '500':
           description: Internal server error
           content:
@@ -2137,6 +2160,30 @@ components:
           type: number
           format: double
           example: 45.46423
+    PageInfo:
+      type: object
+      properties:
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int32
+    RestaurantCollectionResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestaurantItem'
+        page:
+          $ref: '#/components/schemas/PageInfo'
   responses:
     ErrorResponse:
       description: Error response
