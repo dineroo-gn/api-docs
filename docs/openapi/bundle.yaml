@@ -1697,6 +1697,10 @@ components:
         status:
           type: string
           example: PENDING
+        comment:
+          type: string
+          maxLength: 300
+          example: Sans oignons svp
     OrderResponse:
       type: object
       required:
@@ -1736,6 +1740,9 @@ components:
         status:
           type: string
           example: PENDING
+        comment:
+          type: string
+          example: Sans oignons svp
     Product:
       type: object
       required:
