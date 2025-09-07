@@ -36,3 +36,6 @@ properties:
   status:
     type: string
     example: PENDING
+  comment:
+    type: string
+    example: "Sans oignons svp"

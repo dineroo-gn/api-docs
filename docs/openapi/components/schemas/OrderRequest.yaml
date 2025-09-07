@@ -27,3 +27,7 @@ properties:
   status:
     type: string
     example: PENDING
+  comment:
+    type: string
+    maxLength: 300
+    example: "Sans oignons svp"
