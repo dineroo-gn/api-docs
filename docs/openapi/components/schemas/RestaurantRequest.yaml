@@ -1,0 +1,31 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  name:
+    type: string
+  address:
+    type: string
+  phone:
+    type: string
+  imageUrl:
+    type: string
+  description:
+    type: string
+  menus:
+    type: array
+    items:
+      $ref: "./Menu.yaml"
+    uniqueItems: true
+  location:
+    $ref: "./Location.yaml"
+  openingHours:
+    type: array
+    items:
+      $ref: "./OpeningHours.yaml"
+  products:
+    type: array
+    items:
+      $ref: "./Product.yaml"
+    uniqueItems: true

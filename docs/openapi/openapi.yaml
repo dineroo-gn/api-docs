@@ -59,6 +59,8 @@ paths:
     $ref: './paths/restaurants.yaml#/getMenuById'
   "/v1/restaurants/files/upload":
     $ref: './paths/restaurants.yaml#/uploadRawData'
+  "/v1/restaurants/{id}":
+    $ref: './paths/restaurants.yaml#/updateRestaurant'
 
   /v1/orders:
     $ref: './paths/orders.yaml#/orders'
