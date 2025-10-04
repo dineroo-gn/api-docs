@@ -225,6 +225,7 @@ updateRestaurant:
     tags:
       - Restaurant Management
     operationId: updateRestaurant
+    summary: Allow to update restaurant information
     parameters:
       - name: restaurantId
         in: path
@@ -283,4 +284,62 @@ updateRestaurant:
               detail: "An unexpected error occurred while processing your request."
               instance: "/v1/restaurants"
 
+fetchMenus:
+  get:
+    tags:
+      - Restaurant Management
+    operationId: getMenus
+    summary: Retrieve all the menus for a restaurant
+    parameters:
+      - name: restaurantId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              type: array
+              items:
+                $ref: "../components/schemas/Menu.yaml"
+      "400":
+        description: Invalid restaurant ID format
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "Invalid UUID format"
+              instance: "/v1/restaurants/menus/invalid-id"
+      "404":
+        description: Restaurant not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Restaurant with ID 'abc-123' not found for restaurant 'xyz-456'."
+              instance: "/v1/restaurants/550e8400-e29b-41d4-a716-446655440010/menus"
 
+      "500":
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "An unexpected error occurred while processing your request."
+              instance: "/v1/restaurants/{restaurantId}/menus"
