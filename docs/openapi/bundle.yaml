@@ -1352,6 +1352,139 @@ paths:
                 status: 500
                 detail: An unexpected error occurred while processing your request.
                 instance: /v1/restaurants/{restaurantId}/menus
+  /v1/restaurants/{restaurantId}/orders/{orderId}/accept:
+    put:
+      '500':
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: ../components/responses/ErrorResponse.yaml
+            example:
+              type: about:blank
+              title: Internal Server Error
+              status: 500
+              detail: An unexpected error occurred while processing your request.
+              instance: /v1/restaurants/{restaurantId}/orders/{orderId}/accept
+      tags:
+        - Restaurant Management
+      operationId: acceptOrder
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid UUID format
+                instance: /v1/restaurants/{orderId}/orders/invalid-id/accept
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Order with ID 'abc-123' not found for restaurant 'xyz-456'.
+                instance: /v1/restaurants/550e8400-e29b-41d4-a716-446655440010/orders/{orderId}/accept
+  /v1/restaurants/{restaurantId}/orders/{orderId}/reject:
+    put:
+      '500':
+        description: Internal server error
+        content:
+          application/problem+json:
+            schema:
+              $ref: ../components/responses/ErrorResponse.yaml
+            example:
+              type: about:blank
+              title: Internal Server Error
+              status: 500
+              detail: An unexpected error occurred while processing your request.
+              instance: /v1/restaurants/{restaurantId}/orders/{orderId}/reject
+      tags:
+        - Restaurant Management
+      operationId: rejectOrder
+      parameters:
+        - name: restaurantId
+          in: path
+          required: true
+          schema: null
+          type: string
+        - name: orderId
+          in: path
+          required: true
+          schema: null
+          type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Invalid restaurant ID format
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: Invalid UUID format
+                instance: /v1/restaurants/{orderId}/orders/invalid-id/reject
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Order with ID 'abc-123' not found for restaurant 'xyz-456'.
+                instance: /v1/restaurants/550e8400-e29b-41d4-a716-446655440010/orders/{orderId}/reject
+  /order-event:
+    options:
+      tags:
+        - Event Management
+      operationId: receiveOrderEvent
+      parameters:
+        - name: ws://localhost:8080/order-event
+          in: query
+          required: true
+          schema: null
+          type: string
+        - name: /topic/restaurants/{restaurantId}
+          in: query
+          required: true
+          schema: null
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCreatedInfo'
   /v1/orders:
     get:
       tags:
@@ -1790,25 +1923,23 @@ components:
     OrderRequest:
       type: object
       required:
+        - restaurantId
+        - customerId
         - deliveryAddress
         - orderItems
-        - restaurantId
-        - status
         - totalPrice
       properties:
         restaurantId:
           type: string
           format: uuid
-          example: 01962bb7-8dc0-77fe-827e-61c22cea6028
-        totalPrice:
-          type: number
-          format: double
-          example: 120.5
-        deliveryAddress:
-          type: string
-          example: Quartier Kipé, Conakry
-        customer:
-          $ref: '#/components/schemas/CustomerRequest'
+          totalPrice:
+            type: number
+            format: double
+          deliveryAddress:
+            type: string
+          customerId:
+            type: string
+            format: uuid
         orderItems:
           type: array
           uniqueItems: true
@@ -2348,6 +2479,35 @@ components:
           items:
             $ref: '#/components/schemas/Product'
           uniqueItems: true
+    OrderCreatedInfo:
+      type: object
+      required:
+        - restaurantId
+        - customerId
+        - orderId
+        - status
+      properties:
+        restaurantId:
+          type: string
+          example: 81619fbe-e974-4e6b-823d-754702b4393f
+        customerId:
+          type: string
+          example: e64a238f-a416-4abb-b457-8fc31c9c5dfc
+        orderId:
+          type: string
+          example: b336adc9-1062-406d-9042-5794f9cd99c8
+        status:
+          type: string
+          enum:
+            - CREATED
+            - PENDING_PAYMENT
+            - PAYMENT_CONFIRMED
+            - ACCEPTED
+            - REJECTED
+            - PREPARING
+            - READY_FOR_PICKUP
+            - COMPLETED
+            - CANCELED'
   responses:
     ErrorResponse:
       description: Error response
