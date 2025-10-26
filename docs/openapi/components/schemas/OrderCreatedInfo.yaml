@@ -1,0 +1,28 @@
+type: object
+required:
+  - restaurantId
+  - customerId
+  - orderId
+  - status
+properties:
+  restaurantId:
+    type: string
+    example: 81619fbe-e974-4e6b-823d-754702b4393f
+  customerId:
+    type: string
+    example: e64a238f-a416-4abb-b457-8fc31c9c5dfc
+  orderId:
+    type: string
+    example: b336adc9-1062-406d-9042-5794f9cd99c8
+  status:
+    type: string
+    enum:
+    - CREATED
+    - PENDING_PAYMENT
+    - PAYMENT_CONFIRMED
+    - ACCEPTED
+    - REJECTED
+    - PREPARING
+    - READY_FOR_PICKUP
+    - COMPLETED
+    - CANCELED'

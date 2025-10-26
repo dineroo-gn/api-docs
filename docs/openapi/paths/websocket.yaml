@@ -1,0 +1,25 @@
+receiveOrderCreationEvent:
+  options:
+    tags:
+      - Event Management
+    operationId: receiveOrderEvent
+    parameters:
+      - name: ws://localhost:8080/order-event
+        in: query
+        required: true
+        schema:
+        type: string
+      - name: /topic/restaurants/{restaurantId}
+        in: query
+        required: true
+        schema:
+        type: string
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderCreatedInfo.yaml"
+
+

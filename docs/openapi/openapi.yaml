@@ -63,6 +63,13 @@ paths:
     $ref: './paths/restaurants.yaml#/updateRestaurant'
   "/v1/restaurants/{id}/menus":
      $ref: './paths/restaurants.yaml#/fetchMenus'
+  /v1/restaurants/{restaurantId}/orders/{orderId}/accept:
+     $ref: './paths/restaurants.yaml#/acceptOrder'
+  /v1/restaurants/{restaurantId}/orders/{orderId}/reject:
+    $ref: './paths/restaurants.yaml#/rejectOrder'
+
+  /order-event:
+    $ref: './paths/websocket.yaml#/receiveOrderCreationEvent'
 
   /v1/orders:
     $ref: './paths/orders.yaml#/orders'
