@@ -1,0 +1,141 @@
+createPayment:
+  post:
+    tags:
+      - Payment Management
+    operationId: createPayment
+    summary: Create a payment and generate a token
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/PaymentRequest.yaml"
+      required: true
+    responses:
+      "201":
+        description: Payment created successfully
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/PaymentResponse.yaml"
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The payload is invalid."
+              instance: "/v1/payments"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred when creating the payment."
+              instance: "/v1/payments"
+
+getPaymentById:
+  get:
+    tags:
+      - Payment Management
+    summary: Retrieve payment
+    operationId: getPayment
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Retrieve payment by id
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/PaymentResponse.yaml"
+
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The orderId is invalid."
+              instance: "/v1/payments/{orderId}"
+
+      "404":
+        description: Order not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "payment with ID '99999' was not found."
+              instance: "/v1/payments/99999"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred when retrieving the payment."
+              instance: "/v1/payments"
+
+notifyGatewayTransaction:
+  post:
+    tags:
+      - Payment Management
+    operationId: notifyGatewayTransaction
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/ProviderNotificationRequest.yaml"
+      required: true
+    responses:
+      "200":
+        description: Notification received successfully
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The payload is invalid."
+              instance: "/v1/payments/gateway/notifications"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred when creating the payment."
+              instance: "/v1/payments/gateway/notifications"

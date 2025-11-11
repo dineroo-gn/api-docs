@@ -80,6 +80,14 @@ paths:
   /v1/orders/{id}/cancel:
     $ref: './paths/orders.yaml#/cancelOrder'
 
+
+  /v1/payments:
+    $ref: './paths/payments.yaml#/createPayment'
+  /v1/payments/{id}:
+    $ref: './paths/payments.yaml#/getPaymentById'
+  /v1/payments/gateway/notifications:
+    $ref: './paths/payments.yaml#/notifyGatewayTransaction'
+
 components:
   schemas:
     Credential:             { $ref: './components/schemas/Credential.yaml' }

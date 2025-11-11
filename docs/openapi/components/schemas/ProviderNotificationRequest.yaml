@@ -1,0 +1,17 @@
+type: object
+properties:
+  paymentId:
+    type: string
+    format: uuid
+    minLength: 1
+  gatewayTxnId:
+    type: string
+    format: uuid
+    minLength: 1
+  status:
+    type: string
+    minLength: 1
+required:
+  - gatewayTxnId
+  - paymentId
+  - status

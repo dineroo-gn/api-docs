@@ -1,0 +1,24 @@
+type: object
+properties:
+  customerId:
+    type: string
+    format: uuid
+    minLength: 1
+  orderId:
+    type: string
+    minLength: 1
+  amount:
+    type: number
+    format: double
+  currency:
+    type: string
+    minLength: 1
+  paymentMethod:
+    type: string
+    minLength: 1
+required:
+  - amount
+  - currency
+  - customerId
+  - orderId
+  - paymentMethod
