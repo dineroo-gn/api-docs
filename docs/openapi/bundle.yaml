@@ -1763,6 +1763,143 @@ paths:
                 status: 500
                 detail: Unexpected error while cancelling the order.
                 instance: /v1/orders/{id}/cancel
+  /v1/payments:
+    post:
+      tags:
+        - Payment Management
+      operationId: createPayment
+      summary: Create a payment and generate a token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+        required: true
+      responses:
+        '201':
+          description: Payment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The payload is invalid.
+                instance: /v1/payments
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred when creating the payment.
+                instance: /v1/payments
+  /v1/payments/{id}:
+    get:
+      tags:
+        - Payment Management
+      summary: Retrieve payment
+      operationId: getPayment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Retrieve payment by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The orderId is invalid.
+                instance: /v1/payments/{orderId}
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: payment with ID '99999' was not found.
+                instance: /v1/payments/99999
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred when retrieving the payment.
+                instance: /v1/payments
+  /v1/payments/gateway/notifications:
+    post:
+      tags:
+        - Payment Management
+      operationId: notifyGatewayTransaction
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderNotificationRequest'
+        required: true
+      responses:
+        '200':
+          description: Notification received successfully
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The payload is invalid.
+                instance: /v1/payments/gateway/notifications
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred when creating the payment.
+                instance: /v1/payments/gateway/notifications
 components:
   schemas:
     Credential:
@@ -2508,6 +2645,81 @@ components:
             - READY_FOR_PICKUP
             - COMPLETED
             - CANCELED'
+    PaymentRequest:
+      type: object
+      properties:
+        customerId:
+          type: string
+          format: uuid
+          minLength: 1
+        orderId:
+          type: string
+          minLength: 1
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+          minLength: 1
+        paymentMethod:
+          type: string
+          minLength: 1
+      required:
+        - amount
+        - currency
+        - customerId
+        - orderId
+        - paymentMethod
+    PaymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        customerId:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+        status:
+          type: string
+          enum:
+            - PENDING
+            - COMPLETED
+            - FAILED
+            - CANCELLED
+        amount:
+          type: number
+          format: double
+        currency:
+          type: string
+        paymentToken:
+          type: string
+      required:
+        - amount
+        - currency
+        - customerId
+        - id
+        - orderId
+        - status
+    ProviderNotificationRequest:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+          minLength: 1
+        gatewayTxnId:
+          type: string
+          format: uuid
+          minLength: 1
+        status:
+          type: string
+          minLength: 1
+      required:
+        - gatewayTxnId
+        - paymentId
+        - status
   responses:
     ErrorResponse:
       description: Error response
