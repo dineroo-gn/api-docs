@@ -2285,6 +2285,36 @@ components:
         - codePin
         - role
         - telephone
+    DeliveryContactRequest:
+      type: object
+      properties:
+        address:
+          type: string
+          example: Rue de la couronne
+        phoneNumber:
+          type: string
+          example: '+224633666666'
+        instructions:
+          type: string
+          example: Call as soon as you arrive.
+      required:
+        - address
+        - phoneNumber
+    DeliveryContactResponse:
+      type: object
+      properties:
+        address:
+          type: string
+          example: Rue de la couronne
+        phoneNumber:
+          type: string
+          example: '+224633666666'
+        instructions:
+          type: string
+          example: Call as soon as you arrive.
+      required:
+        - address
+        - phoneNumber
     ErrorResponse:
       description: Error response
       content:
@@ -2644,21 +2674,6 @@ components:
             - READY_FOR_PICKUP
             - COMPLETED
             - CANCELED'
-    DeliveryContactResponse:
-      type: object
-      properties:
-        address:
-          type: string
-          example: Rue de la couronne
-        phoneNumber:
-          type: string
-          example: '+224633666666'
-        instructions:
-          type: string
-          example: Call as soon as you arrive.
-      required:
-        - address
-        - phoneNumber
     PaymentRequest:
       type: object
       properties:
