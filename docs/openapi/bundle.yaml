@@ -2112,7 +2112,7 @@ components:
           format: double
           example: 120.5
         deliveryContact:
-          $ref: '#/components/schemas/DeliveryContact'
+          $ref: '#/components/schemas/DeliveryContactResponse'
         orderItems:
           type: array
           uniqueItems: true
@@ -2644,7 +2644,7 @@ components:
             - READY_FOR_PICKUP
             - COMPLETED
             - CANCELED'
-    DeliveryContact:
+    DeliveryContactResponse:
       type: object
       properties:
         address:
