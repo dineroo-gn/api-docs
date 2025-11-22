@@ -1,6 +1,6 @@
 type: object
 required:
-  - deliveryAddress
+  - deliveryContact
   - id
   - orderItems
   - restaurantId
