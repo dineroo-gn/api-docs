@@ -2069,14 +2069,14 @@ components:
         restaurantId:
           type: string
           format: uuid
-          totalPrice:
-            type: number
-            format: double
-          deliveryContact:
-            $ref: ./DeliveryContactRequest.yaml
-          customerId:
-            type: string
-            format: uuid
+        totalPrice:
+          type: number
+          format: double
+        deliveryContact:
+          $ref: '#/components/schemas/DeliveryContactRequest'
+        customerId:
+          type: string
+          format: uuid
         orderItems:
           type: array
           uniqueItems: true
