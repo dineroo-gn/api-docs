@@ -20,7 +20,7 @@ properties:
     format: double
     example: 120.5
   deliveryContact:
-    $ref: './DeliveryContact.yaml'
+    $ref: './DeliveryContactResponse.yaml'
   orderItems:
     type: array
     uniqueItems: true

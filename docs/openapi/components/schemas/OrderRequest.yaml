@@ -13,7 +13,7 @@ properties:
       type: number
       format: double
     deliveryContact:
-      $ref: './DeliveryContact.yaml'
+      $ref: './DeliveryContactRequest.yaml'
     customerId:
       type: string
       format: uuid
