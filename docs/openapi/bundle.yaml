@@ -2062,7 +2062,7 @@ components:
       required:
         - restaurantId
         - customerId
-        - deliveryAddress
+        - deliveryContact
         - orderItems
         - totalPrice
       properties:
@@ -2072,8 +2072,8 @@ components:
           totalPrice:
             type: number
             format: double
-          deliveryAddress:
-            type: string
+          deliveryContact:
+            $ref: ./DeliveryContact.yaml
           customerId:
             type: string
             format: uuid
@@ -2111,9 +2111,8 @@ components:
           type: number
           format: double
           example: 120.5
-        deliveryAddress:
-          type: string
-          example: Quartier Kipé, Conakry
+        deliveryContact:
+          $ref: '#/components/schemas/DeliveryContact'
         orderItems:
           type: array
           uniqueItems: true
@@ -2645,6 +2644,18 @@ components:
             - READY_FOR_PICKUP
             - COMPLETED
             - CANCELED'
+    DeliveryContact:
+      type: object
+      properties:
+        address:
+          type: string
+        phoneNumber:
+          type: string
+        instructions:
+          type: string
+      required:
+        - address
+        - phoneNumber
     PaymentRequest:
       type: object
       properties:
