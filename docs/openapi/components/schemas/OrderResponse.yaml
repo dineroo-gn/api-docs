@@ -19,9 +19,8 @@ properties:
     type: number
     format: double
     example: 120.5
-  deliveryAddress:
-    type: string
-    example: Quartier Kipé, Conakry
+  deliveryContact:
+    $ref: './DeliveryContact.yaml'
   orderItems:
     type: array
     uniqueItems: true
