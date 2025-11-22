@@ -103,6 +103,8 @@ components:
     RestaurantItem:         { $ref: './components/schemas/RestaurantItem.yaml' }
     RestaurantCollection:   { $ref: './components/schemas/RestaurantCollection.yaml' }
     User:                   { $ref: './components/schemas/User.yaml' }
+    DeliveryContactRequest: {$ref: './components/schemas/DeliveryContactRequest.yaml'}
+    DeliveryContactResponse: {$ref: './components/schemas/DeliveryContactResponse.yaml'}
 
 
   responses:
