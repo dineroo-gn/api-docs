@@ -2092,7 +2092,7 @@ components:
     OrderResponse:
       type: object
       required:
-        - deliveryAddress
+        - deliveryContact
         - id
         - orderItems
         - restaurantId
@@ -2649,10 +2649,13 @@ components:
       properties:
         address:
           type: string
+          example: Rue de la couronne
         phoneNumber:
           type: string
+          example: '+224633666666'
         instructions:
           type: string
+          example: Call as soon as you arrive.
       required:
         - address
         - phoneNumber
