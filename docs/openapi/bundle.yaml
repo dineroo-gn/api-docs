@@ -1462,22 +1462,11 @@ paths:
                 status: 404
                 detail: Order with ID 'abc-123' not found for restaurant 'xyz-456'.
                 instance: /v1/restaurants/550e8400-e29b-41d4-a716-446655440010/orders/{orderId}/reject
-  /order-event:
+  /topic/restaurants{restaurantId}/:
     options:
       tags:
         - Event Management
       operationId: receiveOrderEvent
-      parameters:
-        - name: ws://localhost:8080/order-event
-          in: query
-          required: true
-          schema: null
-          type: string
-        - name: /topic/restaurants/{restaurantId}
-          in: query
-          required: true
-          schema: null
-          type: string
       responses:
         '200':
           description: OK
@@ -1485,6 +1474,66 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderCreatedInfo'
+  /topic/{customerId}/orders/{orderId}/accepted:
+    options:
+      tags:
+        - Event Management
+      operationId: orderAccepted
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCreatedInfo'
+  /topic/{customerId}/orders/{orderId}/rejected:
+    options:
+      tags:
+        - Event Management
+      operationId: orderRejected
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCreatedInfo'
+  /topic/drivers/{orderId}/preparing:
+    options:
+      tags:
+        - Event Management
+      operationId: orderPreparing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCreatedInfo'
+  /topic/orders/$orderId/driver-assigned:
+    options:
+      tags:
+        - Event Management
+      operationId: driverAssigned
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryAssignedEvent'
+  /topic/drivers/{driverId}:
+    options:
+      tags:
+        - Event Management
+      operationId: deliveryCreated
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryCreatedInfo'
   /v1/orders:
     get:
       tags:
@@ -1900,6 +1949,177 @@ paths:
                 status: 500
                 detail: Unexpected error occurred when creating the payment.
                 instance: /v1/payments/gateway/notifications
+  /v1/drivers/{driverId}:
+    put:
+      tags:
+        - Driver Management
+      operationId: updateDriverStatus
+      parameters:
+        - name: driverId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverStatusRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content: {}
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The driverId is invalid.
+                instance: /v1/drivers/{driverId}
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: driverId with ID '99999' was not found.
+                instance: /v1/drivers/99999
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred when retrieving the driver.
+                instance: /v1/drivers
+  /v1/deliveries/{deliveryId}/status:
+    put:
+      tags:
+        - Delivery Management
+      operationId: updateDeliveryStatus
+      parameters:
+        - name: deliveryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliveryStatusRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DeliveryStatusResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The driverId is invalid.
+                instance: /v1/deliveries/{deliveryId}
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: deliveryId with ID '99999' was not found.
+                instance: /v1/deliveries/99999
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred when retrieving the delivery.
+                instance: /v1/deliveries
+  /v1/deliveries/assign-driver:
+    put:
+      tags:
+        - Delivery Management
+      operationId: assignDriver
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignDriverRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssignmentResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The driverId is invalid.
+                instance: /v1/deliveries/{deliveryId}
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: deliveryId with ID '99999' was not found.
+                instance: /v1/deliveries/99999
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error occurred when retrieving the delivery.
+                instance: /v1/deliveries
 components:
   schemas:
     Credential:
@@ -2315,6 +2535,118 @@ components:
       required:
         - address
         - phoneNumber
+    AssignDriverRequest:
+      type: object
+      properties:
+        driverId:
+          type: string
+          format: uuid
+        deliveryId:
+          type: string
+          format: uuid
+    AssignmentResponse:
+      type: object
+      properties:
+        driverId:
+          type: string
+          format: uuid
+        deliveryId:
+          type: string
+          format: uuid
+        driverStatus:
+          type: string
+          enum:
+            - ONLINE
+            - OFFLINE
+            - ON_DELIVERY
+        deliveryStatus:
+          type: string
+          enum:
+            - PENDING
+            - ASSIGNED
+            - PICKED_UP
+            - DELIVERED
+            - CANCELED
+    DriverStatusRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ONLINE
+            - OFFLINE
+            - ON_DELIVERY
+    DeliveryStatusResponse:
+      type: object
+      properties:
+        deliveryId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - PENDING
+            - ASSIGNED
+            - PICKED_UP
+            - DELIVERED
+            - CANCELED
+        pickedUpAt:
+          type: string
+          format: date-time
+        deliveredAt:
+          type: string
+          format: date-time
+        cancelledAt:
+          type: string
+          format: date-time
+    UpdateDeliveryStatusRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - PENDING
+            - ASSIGNED
+            - PICKED_UP
+            - DELIVERED
+            - CANCELED
+    DeliveryAssignedEvent:
+      type: object
+      properties:
+        deliveryId:
+          type: string
+        driverId:
+          type: string
+    DeliveryCreatedInfo:
+      type: object
+      properties:
+        deliveryId:
+          type: string
+          example: DEL-12345
+        deliveryAddress:
+          type: string
+          example: 123 Main St, Springfield
+        pickupAddress:
+          type: string
+          example: 456 Restaurant Ave, Springfield
+        restaurantName:
+          type: string
+          example: Pizza Palace
+        estimatedDeliveryDistance:
+          type: number
+          format: double
+          example: 5.4
+        deliveryFee:
+          type: number
+          format: double
+          example: 3.99
+        driverIds:
+          type: array
+          items:
+            type: string
+          example:
+            - driver-1
+            - driver-2
     ErrorResponse:
       description: Error response
       content:
