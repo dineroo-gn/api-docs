@@ -1,0 +1,22 @@
+type: object
+properties:
+  deliveryId:
+    type: string
+    format: uuid
+  status:
+    type: string
+    enum:
+      - PENDING
+      - ASSIGNED
+      - PICKED_UP
+      - DELIVERED
+      - CANCELED
+  pickedUpAt:
+    type: string
+    format: date-time
+  deliveredAt:
+    type: string
+    format: date-time
+  cancelledAt:
+    type: string
+    format: date-time

@@ -1,0 +1,29 @@
+type: object
+properties:
+  deliveryId:
+    type: string
+    example: "DEL-12345"
+  deliveryAddress:
+    type: string
+    example: "123 Main St, Springfield"
+  pickupAddress:
+    type: string
+    example: "456 Restaurant Ave, Springfield"
+  restaurantName:
+    type: string
+    example: "Pizza Palace"
+  estimatedDeliveryDistance:
+    type: number
+    format: double
+    example: 5.4
+  deliveryFee:
+    type: number
+    format: double
+    example: 3.99
+  driverIds:
+    type: array
+    items:
+      type: string
+    example:
+      - "driver-1"
+      - "driver-2"

@@ -1,0 +1,22 @@
+type: object
+properties:
+  driverId:
+    type: string
+    format: uuid
+  deliveryId:
+    type: string
+    format: uuid
+  driverStatus:
+    type: string
+    enum:
+      - ONLINE
+      - OFFLINE
+      - ON_DELIVERY
+  deliveryStatus:
+    type: string
+    enum:
+      - PENDING
+      - ASSIGNED
+      - PICKED_UP
+      - DELIVERED
+      - CANCELED

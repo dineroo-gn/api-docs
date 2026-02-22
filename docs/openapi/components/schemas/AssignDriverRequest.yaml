@@ -1,0 +1,8 @@
+type: object
+properties:
+  driverId:
+    type: string
+    format: uuid
+  deliveryId:
+    type: string
+    format: uuid

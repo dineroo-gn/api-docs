@@ -3,17 +3,6 @@ receiveOrderCreationEvent:
     tags:
       - Event Management
     operationId: receiveOrderEvent
-    parameters:
-      - name: ws://localhost:8080/order-event
-        in: query
-        required: true
-        schema:
-        type: string
-      - name: /topic/restaurants/{restaurantId}
-        in: query
-        required: true
-        schema:
-        type: string
     responses:
       "200":
         description: OK
@@ -22,4 +11,67 @@ receiveOrderCreationEvent:
             schema:
               $ref: "../components/schemas/OrderCreatedInfo.yaml"
 
+orderAccepted:
+  options:
+    tags:
+      - Event Management
+    operationId: orderAccepted
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderCreatedInfo.yaml"
 
+orderRejected:
+  options:
+    tags:
+      - Event Management
+    operationId: orderRejected
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderCreatedInfo.yaml"
+
+orderPreparing:
+  options:
+    tags:
+      - Event Management
+    operationId: orderPreparing
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderCreatedInfo.yaml"
+
+deliveryCreated:
+  options:
+    tags:
+      - Event Management
+    operationId: deliveryCreated
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/DeliveryCreatedInfo.yaml"
+
+driverAssigned:
+  options:
+    tags:
+      - Event Management
+    operationId: driverAssigned
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/DeliveryAssignedEvent.yaml"

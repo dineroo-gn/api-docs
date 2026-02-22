@@ -43,7 +43,7 @@ paths:
   /v1/admin/users/{userId}:
     $ref: './paths/users.yaml#/disableAccount'
   /v1/admin/users:
-    $ref:  './paths/users.yaml#/userList'
+    $ref: './paths/users.yaml#/userList'
 
   /v1/organizations:
     $ref: './paths/users.yaml#/organizations'
@@ -62,14 +62,24 @@ paths:
   "/v1/restaurants/{id}":
     $ref: './paths/restaurants.yaml#/updateRestaurant'
   "/v1/restaurants/{id}/menus":
-     $ref: './paths/restaurants.yaml#/fetchMenus'
+    $ref: './paths/restaurants.yaml#/fetchMenus'
   /v1/restaurants/{restaurantId}/orders/{orderId}/accept:
-     $ref: './paths/restaurants.yaml#/acceptOrder'
+    $ref: './paths/restaurants.yaml#/acceptOrder'
   /v1/restaurants/{restaurantId}/orders/{orderId}/reject:
     $ref: './paths/restaurants.yaml#/rejectOrder'
 
-  /order-event:
+  /topic/restaurants{restaurantId}/:
     $ref: './paths/websocket.yaml#/receiveOrderCreationEvent'
+  "/topic/{customerId}/orders/{orderId}/accepted":
+    $ref: './paths/websocket.yaml#/orderAccepted'
+  "/topic/{customerId}/orders/{orderId}/rejected":
+    $ref: './paths/websocket.yaml#/orderRejected'
+  "/topic/drivers/{orderId}/preparing":
+    $ref: './paths/websocket.yaml#/orderPreparing'
+  "/topic/orders/$orderId/driver-assigned":
+    $ref: './paths/websocket.yaml#/driverAssigned'
+  "/topic/drivers/{driverId}":
+    $ref: './paths/websocket.yaml#/deliveryCreated'
 
   /v1/orders:
     $ref: './paths/orders.yaml#/orders'
@@ -88,27 +98,41 @@ paths:
   /v1/payments/gateway/notifications:
     $ref: './paths/payments.yaml#/notifyGatewayTransaction'
 
+  /v1/drivers/{driverId}:
+    $ref: './paths/deliveries.yaml#/updateDriverStatus'
+  /v1/deliveries/{deliveryId}/status:
+    $ref: './paths/deliveries.yaml#/updateDeliveryStatus'
+  /v1/deliveries/assign-driver:
+    $ref: './paths/deliveries.yaml#/assignDriverToDelivery'
+
 components:
   schemas:
-    Credential:             { $ref: './components/schemas/Credential.yaml' }
-    CustomerRequest:        { $ref: './components/schemas/CustomerRequest.yaml' }
-    Menu:                   { $ref: './components/schemas/Menu.yaml' }
-    MenuResponse:           { $ref: './components/schemas/MenuResponse.yaml' }
-    OrderItemRequest:       { $ref: './components/schemas/OrderItemRequest.yaml' }
-    OrderItemResponse:      { $ref: './components/schemas/OrderItemResponse.yaml' }
-    OrderRequest:           { $ref: './components/schemas/OrderRequest.yaml' }
-    OrderResponse:          { $ref: './components/schemas/OrderResponse.yaml' }
-    Product:                { $ref: './components/schemas/Product.yaml' }
-    Restaurant:             { $ref: './components/schemas/Restaurant.yaml' }
-    RestaurantItem:         { $ref: './components/schemas/RestaurantItem.yaml' }
-    RestaurantCollection:   { $ref: './components/schemas/RestaurantCollection.yaml' }
-    User:                   { $ref: './components/schemas/User.yaml' }
-    DeliveryContactRequest: {$ref: './components/schemas/DeliveryContactRequest.yaml'}
-    DeliveryContactResponse: {$ref: './components/schemas/DeliveryContactResponse.yaml'}
+    Credential: { $ref: './components/schemas/Credential.yaml' }
+    CustomerRequest: { $ref: './components/schemas/CustomerRequest.yaml' }
+    Menu: { $ref: './components/schemas/Menu.yaml' }
+    MenuResponse: { $ref: './components/schemas/MenuResponse.yaml' }
+    OrderItemRequest: { $ref: './components/schemas/OrderItemRequest.yaml' }
+    OrderItemResponse: { $ref: './components/schemas/OrderItemResponse.yaml' }
+    OrderRequest: { $ref: './components/schemas/OrderRequest.yaml' }
+    OrderResponse: { $ref: './components/schemas/OrderResponse.yaml' }
+    Product: { $ref: './components/schemas/Product.yaml' }
+    Restaurant: { $ref: './components/schemas/Restaurant.yaml' }
+    RestaurantItem: { $ref: './components/schemas/RestaurantItem.yaml' }
+    RestaurantCollection: { $ref: './components/schemas/RestaurantCollection.yaml' }
+    User: { $ref: './components/schemas/User.yaml' }
+    DeliveryContactRequest: { $ref: './components/schemas/DeliveryContactRequest.yaml' }
+    DeliveryContactResponse: { $ref: './components/schemas/DeliveryContactResponse.yaml' }
+    AssignDriverRequest: { $ref: './components/schemas/AssignDriverRequest.yaml' }
+    AssignmentResponse: { $ref: './components/schemas/AssignmentResponse.yaml' }
+    DriverStatusRequest: { $ref: './components/schemas/DriverStatusRequest.yaml' }
+    DeliveryStatusResponse: { $ref: './components/schemas/DeliveryStatusResponse.yaml' }
+    UpdateDeliveryStatusRequest: { $ref: './components/schemas/UpdateDeliveryStatusRequest.yaml' }
+    DeliveryAssignedEvent: { $ref: './components/schemas/DeliveryAssignedEvent.yaml' }
+    DeliveryCreatedInfo: { $ref: './components/schemas/DeliveryCreatedInfo.yaml' }
 
 
   responses:
-    ErrorResponse:          { $ref: './components/responses/ErrorResponse.yaml' }
+    ErrorResponse: { $ref: './components/responses/ErrorResponse.yaml' }
 
 tags:
   - name: Restaurant Management

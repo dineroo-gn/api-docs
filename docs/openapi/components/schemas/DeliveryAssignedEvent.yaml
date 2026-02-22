@@ -1,0 +1,6 @@
+type: object
+properties:
+  deliveryId:
+    type: string
+  driverId:
+    type: string

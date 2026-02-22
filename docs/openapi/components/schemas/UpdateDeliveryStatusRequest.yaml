@@ -1,0 +1,10 @@
+type: object
+properties:
+  status:
+    type: string
+    enum:
+      - PENDING
+      - ASSIGNED
+      - PICKED_UP
+      - DELIVERED
+      - CANCELED
