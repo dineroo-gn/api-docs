@@ -70,14 +70,10 @@ paths:
 
   /topic/restaurants{restaurantId}/:
     $ref: './paths/websocket.yaml#/receiveOrderCreationEvent'
-  "/topic/{customerId}/orders/{orderId}/accepted":
-    $ref: './paths/websocket.yaml#/orderAccepted'
-  "/topic/{customerId}/orders/{orderId}/rejected":
-    $ref: './paths/websocket.yaml#/orderRejected'
-  "/topic/drivers/{orderId}/preparing":
-    $ref: './paths/websocket.yaml#/orderPreparing'
-  "/topic/orders/$orderId/driver-assigned":
-    $ref: './paths/websocket.yaml#/driverAssigned'
+  "/topic/{customerId}/orders/{orderId}/status":
+    $ref: './paths/websocket.yaml#/orderStatus'
+  "/topic/drivers/{orderId}/status":
+    $ref: './paths/websocket.yaml#/orderStatus'
   "/topic/drivers/{driverId}":
     $ref: './paths/websocket.yaml#/deliveryCreated'
 
@@ -129,7 +125,6 @@ components:
     UpdateDeliveryStatusRequest: { $ref: './components/schemas/UpdateDeliveryStatusRequest.yaml' }
     DeliveryAssignedEvent: { $ref: './components/schemas/DeliveryAssignedEvent.yaml' }
     DeliveryCreatedInfo: { $ref: './components/schemas/DeliveryCreatedInfo.yaml' }
-
 
   responses:
     ErrorResponse: { $ref: './components/responses/ErrorResponse.yaml' }

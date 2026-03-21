@@ -11,37 +11,11 @@ receiveOrderCreationEvent:
             schema:
               $ref: "../components/schemas/OrderCreatedInfo.yaml"
 
-orderAccepted:
+orderStatus:
   options:
     tags:
       - Event Management
-    operationId: orderAccepted
-    responses:
-      "200":
-        description: OK
-        content:
-          application/json:
-            schema:
-              $ref: "../components/schemas/OrderCreatedInfo.yaml"
-
-orderRejected:
-  options:
-    tags:
-      - Event Management
-    operationId: orderRejected
-    responses:
-      "200":
-        description: OK
-        content:
-          application/json:
-            schema:
-              $ref: "../components/schemas/OrderCreatedInfo.yaml"
-
-orderPreparing:
-  options:
-    tags:
-      - Event Management
-    operationId: orderPreparing
+    operationId: orderStatus
     responses:
       "200":
         description: OK
@@ -62,16 +36,3 @@ deliveryCreated:
           application/json:
             schema:
               $ref: "../components/schemas/DeliveryCreatedInfo.yaml"
-
-driverAssigned:
-  options:
-    tags:
-      - Event Management
-    operationId: driverAssigned
-    responses:
-      "200":
-        description: OK
-        content:
-          application/json:
-            schema:
-              $ref: "../components/schemas/DeliveryAssignedEvent.yaml"
