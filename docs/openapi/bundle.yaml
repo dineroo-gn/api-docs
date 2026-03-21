@@ -1474,11 +1474,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderCreatedInfo'
-  /topic/{customerId}/orders/{orderId}/accepted:
+  /topic/{customerId}/orders/{orderId}/status:
     options:
       tags:
         - Event Management
-      operationId: orderAccepted
+      operationId: orderStatus
       responses:
         '200':
           description: OK
@@ -1486,11 +1486,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderCreatedInfo'
-  /topic/{customerId}/orders/{orderId}/rejected:
+  /topic/drivers/{orderId}/status:
     options:
       tags:
         - Event Management
-      operationId: orderRejected
+      operationId: orderStatus
       responses:
         '200':
           description: OK
@@ -1498,30 +1498,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderCreatedInfo'
-  /topic/drivers/{orderId}/preparing:
-    options:
-      tags:
-        - Event Management
-      operationId: orderPreparing
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OrderCreatedInfo'
-  /topic/orders/$orderId/driver-assigned:
-    options:
-      tags:
-        - Event Management
-      operationId: driverAssigned
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DeliveryAssignedEvent'
   /topic/drivers/{driverId}:
     options:
       tags:
