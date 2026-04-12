@@ -30,7 +30,7 @@ properties:
   pickupContactPhone:
     type: string
   pickupLocation:
-    $ref: "./components/schemas/Location"
+    $ref: "./Location.yaml"
   pickupContactName:
     type: string
   deliveryAddress:

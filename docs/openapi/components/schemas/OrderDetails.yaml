@@ -1,8 +1,8 @@
 type: object
 properties:
-    orderId:
-      type: string
-    driverDetails:
-      $ref: "./DriverDetails"
-    customerDetails:
-      $ref: "./CustomerDetails"
+  orderId:
+    type: string
+  driverDetails:
+    $ref: "./DriverDetails.yaml"
+  customerDetails:
+    $ref: "./CustomerDetails.yaml"

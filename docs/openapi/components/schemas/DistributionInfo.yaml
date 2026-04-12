@@ -11,7 +11,7 @@ properties:
   pickupContactName:
     type: string
   pickupLocation:
-    $ref: "./Location"
+    $ref: "./Location.yaml"
   deliveryAddress:
     type: object
     additionalProperties:
