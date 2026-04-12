@@ -1,0 +1,42 @@
+orderDetails:
+  get:
+    tags:
+      - Global API Management
+    operationId: getOrderDetails
+    parameters:
+      - name: orderId
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/OrderDetails.yaml"
+
+fetchDistribution:
+  get:
+    tags:
+      - Global API Management
+    operationId: getDeliveries
+    parameters:
+      - name: orderId
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: restaurantId
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/DistributionInfo.yaml"

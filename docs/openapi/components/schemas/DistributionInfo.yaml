@@ -1,0 +1,24 @@
+type: object
+properties:
+  pickupAddress:
+    type: object
+    additionalProperties:
+      type: object
+  pickupInstructions:
+    type: string
+  pickupContactPhone:
+    type: string
+  pickupContactName:
+    type: string
+  pickupLocation:
+    $ref: "./Location"
+  deliveryAddress:
+    type: object
+    additionalProperties:
+      type: object
+  deliveryInstructions:
+    type: string
+  deliveryContactPhone:
+    type: string
+  deliveryContactName:
+    type: string

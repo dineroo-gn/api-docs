@@ -1,0 +1,6 @@
+type: object
+properties:
+  phone:
+    type: string
+  name:
+    type: string

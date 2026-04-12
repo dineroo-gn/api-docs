@@ -1,0 +1,45 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  firstName:
+    type: string
+  lastName:
+    type: string
+  phoneNumber:
+    type: string
+  email:
+    type: string
+  status:
+    type: string
+    enum:
+      - ONLINE
+      - OFFLINE
+      - ON_DELIVERY
+  onlineSince:
+    type: string
+    format: date-time
+  lastActivityAt:
+    type: string
+    format: date-time
+  deliveriesCount:
+    type: integer
+    format: int32
+  totalEarnings:
+    type: number
+    format: double
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+  version:
+    type: integer
+    format: int64
+  required:
+    - firstName
+    - id
+    - lastName
+    - phoneNumber

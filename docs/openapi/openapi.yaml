@@ -86,7 +86,6 @@ paths:
   /v1/orders/{id}/cancel:
     $ref: './paths/orders.yaml#/cancelOrder'
 
-
   /v1/payments:
     $ref: './paths/payments.yaml#/createPayment'
   /v1/payments/{id}:
@@ -100,6 +99,20 @@ paths:
     $ref: './paths/deliveries.yaml#/updateDeliveryStatus'
   /v1/deliveries/assign-driver:
     $ref: './paths/deliveries.yaml#/assignDriverToDelivery'
+  /v1/drivers:
+    $ref: './paths/deliveries.yaml#/fetchDriverByOrderId'
+  /v1/drivers/{id}:
+    $ref: './paths/deliveries.yaml#/fetchDriverById'
+
+  /v1/deliveries/{deliveryId}:
+    $ref: './paths/deliveries.yaml#/fetchDeliveryById'
+
+
+  /v1/order-details:
+    $ref: './paths/Aggregations.yaml#/orderDetails'
+  /v1/distributions:
+    $ref: './paths/Aggregations.yaml#/fetchDistribution'
+
 
 components:
   schemas:
@@ -125,6 +138,9 @@ components:
     UpdateDeliveryStatusRequest: { $ref: './components/schemas/UpdateDeliveryStatusRequest.yaml' }
     DeliveryAssignedEvent: { $ref: './components/schemas/DeliveryAssignedEvent.yaml' }
     DeliveryCreatedInfo: { $ref: './components/schemas/DeliveryCreatedInfo.yaml' }
+    Driver: { $ref: './components/schemas/Driver.yaml'}
+    Delivery: { $ref: './components/schemas/Delivery.yaml'}
+    Location: { $ref: './components/schemas/Location.yaml'}
 
   responses:
     ErrorResponse: { $ref: './components/responses/ErrorResponse.yaml' }

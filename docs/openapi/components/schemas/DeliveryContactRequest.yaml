@@ -3,12 +3,25 @@ properties:
   address:
     type: string
     example: "Rue de la couronne"
+  district:
+    type: string
+    example: "Sofonia"
+  commune:
+    type: string
+    example: "Ratoma"
   phoneNumber:
     type: string
     example: "+224633666666"
   instructions:
     type: string
     example: "Call as soon as you arrive."
+  firstName:
+    type: string
+    example: Célestin
+  lastName:
+    type: string
+    example: Iffono
 required:
   - address
   - phoneNumber
+  - firstName

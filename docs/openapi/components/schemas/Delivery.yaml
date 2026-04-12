@@ -1,0 +1,88 @@
+type: object
+properties:
+  id:
+    type: string
+    format: uuid
+  driverId:
+    type: string
+    format: uuid
+  orderId:
+    type: string
+  restaurantId:
+    type: string
+    format: uuid
+  customerId:
+    type: string
+    format: uuid
+  status:
+    type: string
+    enum:
+      - PENDING
+      - ASSIGNED
+      - PICKED_UP
+      - DELIVERED
+      - CANCELED
+  pickupAddress:
+    type: object
+    additionalProperties: { }
+  pickupInstructions:
+    type: string
+  pickupContactPhone:
+    type: string
+  pickupLocation:
+    $ref: "./components/schemas/Location"
+  pickupContactName:
+    type: string
+  deliveryAddress:
+    type: object
+    additionalProperties: { }
+  deliveryInstructions:
+    type: string
+  deliveryContactPhone:
+    type: string
+  fee:
+    type: number
+    format: double
+  distanceKm:
+    type: number
+    format: double
+  estimatedDeliveryAt:
+    type: string
+    format: date-time
+  createdAt:
+    type: string
+    format: date-time
+  driverAssignedAt:
+    type: string
+    format: date-time
+  pickedUpAt:
+    type: string
+    format: date-time
+  deliveredAt:
+    type: string
+    format: date-time
+  cancelledAt:
+    type: string
+    format: date-time
+  version:
+    type: integer
+    format: int64
+  required:
+    - deliveryAddress
+    - deliveryContactPhone
+    - orderId
+    - pickupAddress
+    - pickupContactPhone
+    - restaurantId
+  Location:
+    type: object
+    properties:
+      latitude:
+        type: number
+        format: double
+      longitude:
+        type: number
+        format: double
+    required:
+      - latitude
+      - longitude

@@ -1,3 +1,23 @@
+fetchDeliveryById:
+  get:
+    tags:
+      - Delivery Management
+    operationId: getDeliveryById
+    parameters:
+      - name: deliveryId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: OK
+        content:
+          'application/json':
+            schema:
+              $ref: "../components/schemas/Delivery.yaml"
+
 updateDeliveryStatus:
   put:
     tags:
@@ -59,6 +79,7 @@ updateDeliveryStatus:
               status: 500
               detail: "Unexpected error occurred when retrieving the delivery."
               instance: "/v1/deliveries"
+
 
 
 assignDriverToDelivery:
@@ -151,6 +172,121 @@ updateDriverStatus:
               status: 400
               detail: "The driverId is invalid."
               instance: "/v1/drivers/{driverId}"
+
+      "404":
+        description: Order not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "driverId with ID '99999' was not found."
+              instance: "/v1/drivers/99999"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred when retrieving the driver."
+              instance: "/v1/drivers"
+
+fetchDriverByOrderId:
+  get:
+    tags:
+      - Driver Management
+    operationId: getDriverByOrderId
+    parameters:
+      - name: orderId
+        in: query
+        required: true
+        schema:
+          type: string
+    responses:
+      "200":
+        description: Ok
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/Driver.yaml"
+
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The orderId is invalid."
+              instance: "/v1/drivers?orderId=value"
+
+      "404":
+        description: Order not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "driverId with ID '99999' was not found."
+              instance: "/v1/drivers?orderId=99999"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error occurred when retrieving the driver."
+              instance: "/v1/drivers"
+
+fetchDriverById:
+  get:
+    tags:
+      - Driver Management
+    operationId: getDriverById
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    responses:
+      "200":
+        description: Ok
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/Driver.yaml"
+
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The orderId is invalid."
+              instance: "/v1/drivers/{orderId}"
 
       "404":
         description: Order not found
