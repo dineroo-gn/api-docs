@@ -1510,6 +1510,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeliveryCreatedInfo'
+  /driver-location:
+    options:
+      tags:
+        - Event Management
+      operationId: sendDriverLocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriverLocation'
+      responses:
+        '200':
+          description: OK
   /v1/orders:
     get:
       tags:
@@ -2951,6 +2965,15 @@ components:
           type: number
           format: double
           example: 45.46423
+    DriverLocation:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Location'
+          properties:
+            driverId: null
+            type: string
+            format: uuid
+            example: 01962bb7-8dc0-77fe-827e-
     ErrorResponse:
       description: Error response
       content:
