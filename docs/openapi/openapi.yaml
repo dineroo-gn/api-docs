@@ -76,6 +76,8 @@ paths:
     $ref: './paths/websocket.yaml#/orderStatus'
   "/topic/drivers/{driverId}":
     $ref: './paths/websocket.yaml#/deliveryCreated'
+  /driver-location:
+    $ref: './paths/websocket.yaml#/sendDriverLocation'
 
   /v1/orders:
     $ref: './paths/orders.yaml#/orders'
@@ -141,6 +143,7 @@ components:
     Driver: { $ref: './components/schemas/Driver.yaml'}
     Delivery: { $ref: './components/schemas/Delivery.yaml'}
     Location: { $ref: './components/schemas/Location.yaml'}
+    DriverLocation: { $ref: './components/schemas/DriverLocation.yaml'}
 
   responses:
     ErrorResponse: { $ref: './components/responses/ErrorResponse.yaml' }

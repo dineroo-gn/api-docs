@@ -1,0 +1,8 @@
+type: object
+allOf:
+  - $ref: "./Location.yaml"
+    properties:
+      driverId:
+      type: string
+      format: uuid
+      example: 01962bb7-8dc0-77fe-827e-
