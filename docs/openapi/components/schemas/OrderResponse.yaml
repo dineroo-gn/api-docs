@@ -19,6 +19,14 @@ properties:
     type: number
     format: double
     example: 120.5
+  serviceFee:
+    type: number
+    format: double
+    example: 5.0
+  deliveryFee:
+    type: number
+    format: double
+    example: 3.0
   deliveryContact:
     $ref: './DeliveryContactResponse.yaml'
   orderItems:

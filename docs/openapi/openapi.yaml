@@ -87,6 +87,8 @@ paths:
     $ref: './paths/orders.yaml#/getOrdersByCustomer'
   /v1/orders/{id}/cancel:
     $ref: './paths/orders.yaml#/cancelOrder'
+  /v1/orders/estimate:
+    $ref: './paths/orders.yaml#/estimateOrder'
 
   /v1/payments:
     $ref: './paths/payments.yaml#/createPayment'
@@ -144,6 +146,9 @@ components:
     Delivery: { $ref: './components/schemas/Delivery.yaml'}
     Location: { $ref: './components/schemas/Location.yaml'}
     DriverLocation: { $ref: './components/schemas/DriverLocation.yaml'}
+    OrderEstimationItemRequest: { $ref: './components/schemas/OrderEstimationItemRequest.yaml' }
+    OrderEstimationRequest: { $ref: './components/schemas/OrderEstimationRequest.yaml' }
+    OrderEstimation: { $ref: './components/schemas/OrderEstimation.yaml' }
 
   responses:
     ErrorResponse: { $ref: './components/responses/ErrorResponse.yaml' }

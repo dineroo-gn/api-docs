@@ -1,0 +1,18 @@
+type: object
+properties:
+  subtotal:
+    type: number
+  serviceFee:
+    type: number
+  deliveryFee:
+    type: number
+  total:
+    type: number
+  djomyFee:
+    type: number
+required:
+  - deliveryFee
+  - djomyFee
+  - serviceFee
+  - subtotal
+  - total

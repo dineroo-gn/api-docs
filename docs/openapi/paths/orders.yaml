@@ -281,3 +281,59 @@ cancelOrder:
               status: 500
               detail: "Unexpected error while cancelling the order."
               instance: "/v1/orders/{id}/cancel"
+
+estimateOrder:
+  post:
+    tags:
+      - Order Management
+    summary: Estimate the delivery time for an order
+    operationId: estimateOrder
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../components/schemas/OrderEstimationRequest.yaml"
+      required: true
+    responses:
+      "200":
+        description: OK
+        content:
+          application/json:
+            schema:
+              $ref: "../components/schemas/OrderEstimation.yaml"
+      "400":
+        description: Bad Request
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Bad Request"
+              status: 400
+              detail: "The order ID is not a valid UUID."
+              instance: "/v1/orders/estimate"
+      "404":
+        description: Order not found
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Not Found"
+              status: 404
+              detail: "Order with ID 'abc-123' was not found."
+              instance: "/v1/orders/estimate"
+      "500":
+        description: Internal Server Error
+        content:
+          application/problem+json:
+            schema:
+              $ref: "../components/responses/ErrorResponse.yaml"
+            example:
+              type: "about:blank"
+              title: "Internal Server Error"
+              status: 500
+              detail: "Unexpected error while estimating delivery time."
+              instance: "/v1/orders/estimate"

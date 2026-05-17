@@ -1,0 +1,15 @@
+type: object
+properties:
+  items:
+    type: array
+    items:
+      $ref: "./OrderEstimationItemRequest.yaml"
+    minItems: 1
+  restaurantLocation:
+    $ref: "./Location.yaml"
+  customerLocation:
+    $ref: "./Location.yaml"
+required:
+  - customerLocation
+  - items
+  - restaurantLocation

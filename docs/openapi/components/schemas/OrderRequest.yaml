@@ -12,6 +12,12 @@ properties:
   totalPrice:
     type: number
     format: double
+  serviceFee:
+    type: number
+    format: double
+  deliveryFee:
+    type: number
+    format: double
   deliveryContact:
     $ref: './DeliveryContactRequest.yaml'
   customerId:
