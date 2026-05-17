@@ -1802,6 +1802,61 @@ paths:
                 status: 500
                 detail: Unexpected error while cancelling the order.
                 instance: /v1/orders/{id}/cancel
+  /v1/orders/estimate:
+    post:
+      tags:
+        - Order Management
+      summary: Estimate the delivery time for an order
+      operationId: estimateOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderEstimationRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderEstimation'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Bad Request
+                status: 400
+                detail: The order ID is not a valid UUID.
+                instance: /v1/orders/estimate
+        '404':
+          description: Order not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Not Found
+                status: 404
+                detail: Order with ID 'abc-123' was not found.
+                instance: /v1/orders/estimate
+        '500':
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                type: about:blank
+                title: Internal Server Error
+                status: 500
+                detail: Unexpected error while estimating delivery time.
+                instance: /v1/orders/estimate
   /v1/payments:
     post:
       tags:
@@ -2451,6 +2506,12 @@ components:
         totalPrice:
           type: number
           format: double
+        serviceFee:
+          type: number
+          format: double
+        deliveryFee:
+          type: number
+          format: double
         deliveryContact:
           $ref: '#/components/schemas/DeliveryContactRequest'
         customerId:
@@ -2490,6 +2551,14 @@ components:
           type: number
           format: double
           example: 120.5
+        serviceFee:
+          type: number
+          format: double
+          example: 5
+        deliveryFee:
+          type: number
+          format: double
+          example: 3
         deliveryContact:
           $ref: '#/components/schemas/DeliveryContactResponse'
         orderItems:
@@ -2980,6 +3049,52 @@ components:
           type: number
           format: double
           example: 45.46423
+    OrderEstimationItemRequest:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          format: int32
+        price:
+          type: number
+      required:
+        - price
+        - quantity
+    OrderEstimationRequest:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderEstimationItemRequest'
+          minItems: 1
+        restaurantLocation:
+          $ref: '#/components/schemas/Location'
+        customerLocation:
+          $ref: '#/components/schemas/Location'
+      required:
+        - customerLocation
+        - items
+        - restaurantLocation
+    OrderEstimation:
+      type: object
+      properties:
+        subtotal:
+          type: number
+        serviceFee:
+          type: number
+        deliveryFee:
+          type: number
+        total:
+          type: number
+        djomyFee:
+          type: number
+      required:
+        - deliveryFee
+        - djomyFee
+        - serviceFee
+        - subtotal
+        - total
     ErrorResponse:
       description: Error response
       content:
